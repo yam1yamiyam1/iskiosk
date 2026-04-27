@@ -269,7 +269,12 @@
                     <div class="mb-3">
                         <label class="form-label">Remark (Optional)</label>
                         
-                        <textarea name="remark" class="form-control" rows="3" maxlength="500"
+                        <div class="mb-2">
+                            <?php $__currentLoopData = $quickRemarks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <span class="badge bg-secondary cursor-pointer quick-remark-chip" style="cursor: pointer;" data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                        <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
                                 placeholder="Enter remark for all documents (optional).."></textarea>
                     </div>
 
@@ -383,7 +388,13 @@
 
                         <div class="mb-3">
                             <label class="form-label">Remark (Optional)</label>
-                            <textarea name="remark" class="form-control" rows="3" maxlength="500"
+                            
+                            <div class="mb-2">
+                                <?php $__currentLoopData = $quickRemarks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <span class="badge bg-secondary cursor-pointer quick-remark-chip" style="cursor: pointer;" data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </div>
+                            <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
                                     placeholder="Enter any note or remark (optional)..."></textarea>
                         </div>
                     </div>
@@ -468,7 +479,7 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php if (! $__env->hasRenderedOnce('c37052f8-cdb0-4ec3-8748-7ba7b13162a6')): $__env->markAsRenderedOnce('c37052f8-cdb0-4ec3-8748-7ba7b13162a6');
+<?php if (! $__env->hasRenderedOnce('7243268a-8848-4315-91d1-4366a8bddd90')): $__env->markAsRenderedOnce('7243268a-8848-4315-91d1-4366a8bddd90');
 $__env->startPush('page-scripts'); ?>
 <script>
     const documentSearchInput = document.getElementById('document-search-input');
@@ -638,6 +649,19 @@ $__env->startPush('page-scripts'); ?>
         const modal = new bootstrap.Modal(modalEl);
         modal.show();
     }
+
+    document.querySelectorAll('.quick-remark-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            const remarkText = this.getAttribute('data-remark');
+            const modal = this.closest('.modal');
+            if(modal) {
+                const textarea = modal.querySelector('.remark-textarea');
+                if(textarea) {
+                    textarea.value = remarkText;
+                }
+            }
+        });
+    });
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.tabler', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\iskiosk\resources\views/admin/document.blade.php ENDPATH**/ ?>
