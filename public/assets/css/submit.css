@@ -1,0 +1,944 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* -------------------------------
+   GENERAL BODY STYLE
+-------------------------------- */
+body {
+    background-image: url('img/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: "Times New Roman", serif;
+    margin: 0;
+    padding: 0;
+    color: #8B1A1A;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+/* -------------------------------
+   HEADER SECTION
+-------------------------------- */
+.header {
+    position: relative;
+    width: 100%;
+    background: white;
+    border-bottom: 3px solid #8B1A1A;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Full-width header image */
+.header-img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    width: 70%;
+    height: auto;
+    display: block;
+}
+
+/* Date & Time overlay */
+.datetime {
+    position: absolute;
+    top: 50%;
+    right: 60px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Roboto', sans-serif;
+    z-index: 10;
+}
+
+.date {
+    color: #8B1A1A;
+    font-size: clamp(11px, 1.2vw, 16px);
+    font-weight: bold;
+}
+
+.time {
+    background: #8B1A1A;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: clamp(11px, 1.2vw, 16px);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* -------------------------------
+   NAVIGATION / SIDE HEADER
+-------------------------------- */
+.nav-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 50px;
+    gap: 10px;
+}
+
+.side {
+    height: auto;
+    max-width: 100%;
+}
+
+
+
+
+
+
+/* === FORM CONTAINER === */
+.form-container {
+    margin: clamp(0px, 2vh, 20px) auto 50px;
+    text-align: center;
+    max-width: clamp(900px, 85vw, 1100px);
+    padding: 0 clamp(20px, 4vw, 40px);
+}
+
+.form-container h2 {
+    color: #8B1A1A;
+    font-size: clamp(18px, 2.2vw, 32px);
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.form-container .title-sub {
+    color: #8B1A1A;
+    font-size: clamp(11px, 1.2vw, 17px);
+    margin-bottom: 18px;
+    font-weight: normal;
+}
+
+/* === ID ROW (aligned horizontally) === */
+:root {
+    --field-h: clamp(44px, 5.5vh, 54px);
+    --field-radius: 16px;
+}
+
+.id-row {
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 3vw, 50px);
+    /* increased gap */
+    margin: 18px 0 12px;
+    text-align: left;
+    flex-wrap: wrap;
+}
+
+.id-input {
+    flex: 1;
+    min-width: 280px;
+}
+
+.verify-btn {
+    height: var(--field-h);
+    background: #8B1A1A;
+    color: #fff;
+    border: none;
+    padding: 0 clamp(22px, 2.8vw, 30px);
+    font-size: clamp(13px, 1.4vw, 17px);
+    border-radius: var(--field-radius);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .15);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    margin-left: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 13px;
+    /* ✅ moves the button slightly lower */
+}
+
+.verify-btn:hover {
+    background: #6B0A0A;
+}
+
+
+.id-hint {
+    grid-column: 1 / -1;
+    font-size: clamp(11px, 1.1vw, 13px);
+    color: #333;
+    margin-top: 10px;
+    /* ⬅️ increased from 6px */
+    position: relative;
+    top: 13px;
+    /* ⬅️ moves hint slightly lower */
+}
+
+
+
+.id-row .id-input input {
+    height: var(--field-h);
+    width: 100%;
+    padding: 0 16px;
+    border: 1px solid #C47A7A;
+    border-radius: var(--field-radius);
+    background: #ffffffee;
+    font-size: clamp(13px, 1.4vw, 17px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .08);
+}
+
+.verify-btn {
+    height: var(--field-h);
+    background: #8B1A1A;
+    color: #fff;
+    border: none;
+    padding: 0 clamp(18px, 2.5vw, 26px);
+    font-size: clamp(13px, 1.4vw, 17px);
+    border-radius: var(--field-radius);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .15);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.verify-btn:hover {
+    background: #6B0A0A;
+}
+
+/* Hint text beside button */
+.id-hint {
+    font-size: clamp(11px, 1.1vw, 13px);
+    color: #333;
+    margin-left: 10px;
+    flex: 1;
+    white-space: nowrap;
+}
+
+/* === LABEL STYLE === */
+label {
+    display: block;
+    font-weight: 400;
+    color: #000000;
+    font-family: 'Roboto', sans-serif;
+    font-size: clamp(12px, 1.2vw, 15px);
+    margin-bottom: 6px;
+}
+
+/* === INPUTS === */
+input,
+select {
+    width: 100%;
+    min-height: var(--field-h);
+    padding: 0 14px;
+    border: 1px solid #C47A7A;
+    border-radius: var(--field-radius);
+    font-size: clamp(12px, 1.2vw, 15px);
+    background: #ffffffee;
+    outline: none;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .08);
+}
+
+input:focus,
+select:focus {
+    border-color: #6B0A0A;
+    box-shadow: 0 0 0 4px rgba(139, 26, 26, .15);
+}
+
+/* === FORM GRID === */
+form {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(18px, 2.5vh, 24px) clamp(28px, 3vw, 36px);
+    text-align: left;
+}
+
+.col-4 {
+    grid-column: span 4;
+}
+
+.col-6 {
+    grid-column: span 6;
+}
+
+.col-12 {
+    grid-column: 1 / -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------
+   FOOTER (PUP Motto)
+-------------------------------- */
+.footer-img {
+    display: block;
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #8B1A1A;
+    font-size: 1.2rem;
+    font-style: italic;
+    max-width: 90%;
+    height: auto;
+}
+
+/* -------------------------------
+   📱 RESPONSIVE DESIGN
+-------------------------------- */
+
+/* Laptops & Tablets (≤1024px) */
+@media (max-width: 1024px) {
+    .header-img {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        height: auto;
+        width: 90%;
+        /* keeps it responsive */
+    }
+
+    .datetime {
+        top: 40px;
+        right: 40px;
+        transform: none;
+    }
+
+    .date {
+        font-size: 13px;
+    }
+
+    .time {
+        font-size: 14px;
+        padding: 4px 10px;
+    }
+
+    .nav-top {
+        padding: 10px 30px;
+        width: 150%;
+        /* ✅ changed from 250% */
+        overflow-x: hidden;
+        /* ✅ prevents horizontal scrolling */
+        display: flex;
+        justify-content: center;
+    }
+
+    .footer-img {
+        width: 30%;
+        max-width: 600px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        /* ✅ centers footer image */
+    }
+}
+
+/* Tablets & Medium Screens (≤768px) */
+@media (max-width: 768px) {
+    .datetime {
+        position: absolute;
+        top: auto;
+        bottom: 20px;
+        right: 25px;
+        transform: none;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+    }
+
+    .time {
+        padding: 4px 10px;
+    }
+
+    .nav-top {
+        justify-content: center;
+        padding: 10px 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .footer-img {
+        font-size: 1rem;
+        bottom: 25px;
+    }
+}
+
+/* Small Phones (≤480px) */
+@media (max-width: 480px) {
+    .datetime {
+        bottom: 15px;
+        right: 15px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+    }
+
+    .date,
+    .time {
+        font-size: 12px;
+    }
+
+    .time {
+        padding: 3px 8px;
+    }
+
+    .nav-top {
+        padding: 5px 10px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .footer-img {
+        font-size: 0.9rem;
+        bottom: 20px;
+    }
+}
+
+
+
+
+
+
+
+/* ===========================
+   Bottom fixed nav buttons (Raised + Larger)
+=========================== */
+.bottom-section {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    /* ⬆️ raised higher from bottom */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(20px, 6vw, 80px);
+    z-index: 1000;
+}
+
+.bottom-section .btn {
+    background: #8B1A1A;
+    /* maroon */
+    color: #fff;
+    border: none;
+    height: clamp(56px, 7.5vh, 70px);
+    /* ⬆️ taller */
+    padding: 0 clamp(28px, 4vw, 60px);
+    /* ⬆️ wider */
+    border-radius: 18px;
+    /* ⬆️ slightly rounder */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: clamp(15px, 1.4vw, 22px);
+    /* ⬆️ bigger text */
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bottom-section .btn i {
+    font-size: 1.2em;
+    /* ⬆️ larger icon */
+    line-height: 1;
+}
+
+.bottom-section .btn:hover {
+    background: #6B0A0A;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .28);
+}
+
+.bottom-section .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .2);
+}
+
+.bottom-section .btn:focus-visible {
+    outline: 4px solid rgba(139, 26, 26, .25);
+    outline-offset: 3px;
+}
+
+/* Adjust the footer tagline to stay centered between buttons */
+.footer-img {
+    z-index: 900;
+    bottom: 40px;
+    /* ⬆️ raised slightly to align visually */
+}
+
+/* Responsive tweak */
+@media (max-width: 560px) {
+    .bottom-section {
+        bottom: 40px;
+        padding: 0 16px;
+    }
+
+    .bottom-section .btn {
+        height: 56px;
+        padding: 0 24px;
+        font-size: 16px;
+        border-radius: 14px;
+    }
+}
+
+
+
+
+/* ================================
+   FINAL ADJUSTMENT — Raise Form Higher Again
+   + Slightly wider spacing between fields
+================================ */
+@media (max-width: 1024px) {
+    .form-container {
+        transform: translateY(-50px);
+        /* was -35px */
+        margin-bottom: 150px;
+    }
+
+    /* ⬆️ increase spacing between adjacent fields */
+    form {
+        column-gap: 30px !important;
+    }
+
+    /* was 24px */
+    .col-4,
+    .col-6 {
+        padding-right: 14px;
+    }
+
+    /* more space on each cell */
+
+    /* remove padding on last field per row */
+    .col-4:nth-child(3n),
+    .col-6:nth-child(2n) {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        transform: translateY(-70px);
+        /* was -55px */
+        margin-bottom: 180px;
+    }
+
+    /* stacked layout — keep vertical gaps only */
+    .col-4,
+    .col-6 {
+        padding-right: 0;
+    }
+
+    form {
+        column-gap: 0 !important;
+        row-gap: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        transform: translateY(-85px);
+        /* was -70px */
+        margin-bottom: 190px;
+    }
+
+    .col-4,
+    .col-6 {
+        padding-right: 0;
+    }
+
+    form {
+        column-gap: 0 !important;
+        row-gap: 20px;
+    }
+}
+
+
+
+/* ================================
+   EXTRA SPACING: Year Level ↔ Program
+   + Lower Back & Continue Buttons
+================================ */
+@media (max-width: 1024px) {
+
+    /* extra space between Year Level & Program */
+    .col-6:nth-child(4) {
+        padding-right: 22px;
+    }
+
+    /* Year Level */
+    .col-6:nth-child(5) {
+        padding-left: 22px;
+    }
+
+    /* Program */
+
+    /* lower Back & Continue buttons */
+    .bottom-section {
+        bottom: 30px !important;
+        /* move buttons lower */
+    }
+
+    /* give form a bit more space before footer */
+    .form-container {
+        padding-bottom: 60px;
+    }
+
+    /* adjust tagline for alignment */
+    .footer-img {
+        bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .col-6:nth-child(4),
+    .col-6:nth-child(5) {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .bottom-section {
+        bottom: 25px !important;
+        /* slightly lower on tablets */
+    }
+
+    .form-container {
+        padding-bottom: 80px;
+    }
+
+    .footer-img {
+        bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .bottom-section {
+        bottom: 20px !important;
+    }
+
+    .form-container {
+        padding-bottom: 100px;
+    }
+
+    .footer-img {
+        bottom: 10px;
+    }
+}
+
+
+
+
+
+/* Align the Verify button exactly with the ID input (bottom edge) */
+@media (min-width: 769px) {
+    .id-row {
+        display: flex;
+        align-items: flex-end !important;
+        /* bottom-align instead of center */
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .id-row .id-input {
+        display: flex;
+        flex-direction: column;
+
+        margin-right: 30px;
+        /* keep label above input */
+    }
+
+    .id-row .verify-btn {
+        top: 0 !important;
+        /* remove earlier offsets */
+        margin: 0 !important;
+        height: var(--field-h);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* keep stacked layout on small screens */
+@media (max-width: 768px) {
+    .id-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .id-row .verify-btn {
+        width: 100%;
+        margin-top: 8px;
+    }
+}
+
+
+
+
+
+
+/* Floating verify message - does not affect layout */
+.verify-msg {
+    position: fixed;
+    /* take out of document flow */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    /* show via .show */
+    z-index: 10000;
+
+    /* card look */
+    background: #ffffff;
+    padding: 16px 22px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    border: 1px solid #e5e7eb;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    min-width: 260px;
+    max-width: 85vw;
+}
+
+/* color variants */
+.verify-msg.info {
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.verify-msg.warn {
+    color: #b45309;
+    border-color: #f59e0b;
+}
+
+.verify-msg.success {
+    color: #065f46;
+    border-color: #10b981;
+}
+
+.verify-msg.error {
+    color: #991b1b;
+    border-color: #991b1b;
+}
+
+.verify-msg.show {
+    display: block;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -54%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.verify-msg.show {
+    animation: popIn .18s ease-out;
+}
+
+.loading-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.loading-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.loading-box {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 260px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  font-family: system-ui, sans-serif;
+}
+
+.loading-box p {
+  margin-top: 15px;
+  font-size: 15px;
+  color: #444;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e5e5;
+  border-top: 4px solid #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.status-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.status-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.status-box {
+  background: #fff;
+  padding: 30px 35px;
+  border-radius: 12px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  font-family: system-ui;
+}
+
+.status-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.status-box h3 {
+  margin: 10px 0 5px;
+}
+
+.status-box p {
+  color: #555;
+  font-size: 14px;
+}
+
+.status-box button {
+  margin-top: 15px;
+  padding: 8px 20px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-box {
+    background: #fff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    max-width: 350px;
+}
+
+.popup-box h3 {
+    margin: 0 0 10px;
+    color: #a00000;
+}
+
+.popup-box button {
+    margin-top: 15px;
+    padding: 8px 18px;
+    background: #a00000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Add space between Given Name and Middle Name */
+form .col-4:nth-child(3) {
+    margin-right: 15px;
+    /* space between Given Name and Middle Name */
+}
+
+/* Shorter width for Email & Contact on desktop/tablet */
+@media (min-width: 768px) {
+
+    #email,
+    #contact_number {
+        max-width: 408px;
+        /* adjust 340–480px to taste */
+        width: 100%;
+    }
+}
+
+/* Reduce rounded edges for inputs, selects, and buttons */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    border-radius: 4px !important;
+    /* originally around 10px or more */
+}
+
+button,
+.submit-btn,
+.back-btn {
+    border-radius: 6px !important;
+    /* originally 15px+ */
+}
+
+/* Heading & subtitle font */
+.form-container h2,
+.form-container .title-sub {
+    font-family: 'Roboto', sans-serif;
+    /* optional tweaks */
+    font-weight: 700;
+    /* bold for heading */
+    text-transform: uppercase;
+    /* keeps your heading uppercase */
+}
+
+html,
+body {
+    overflow: hidden;
+    /* ✅ disables ALL scrolling */
+    height: 100%;
+    /* ensures page height fits the viewport */
+}

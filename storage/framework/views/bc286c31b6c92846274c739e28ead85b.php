@@ -1,0 +1,1 @@
+<?php /**PATH C:\laragon\www\kiosk\resources\views/layouts/head.blade.php ENDPATH**/ ?>

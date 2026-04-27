@@ -1,0 +1,2 @@
+<img src="<?php echo e(asset('assets/images/vaultlogo.png')); ?>" alt="Logo" style="width: 300px; height: auto;" />
+<?php /**PATH C:\laragon\www\kiosk\resources\views\components\application-logo.blade.php ENDPATH**/ ?>

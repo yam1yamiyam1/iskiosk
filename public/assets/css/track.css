@@ -1,0 +1,815 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* -------------------------------
+   GENERAL BODY STYLE
+-------------------------------- */
+body {
+    background-image: url('img/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: "Times New Roman", serif;
+    margin: 0;
+    padding: 0;
+    color: #8B1A1A;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+/* -------------------------------
+   HEADER SECTION
+-------------------------------- */
+.header {
+    position: relative;
+    width: 100%;
+    background: white;
+    border-bottom: 3px solid #8B1A1A;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Full-width header image */
+.header-img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    width: 70%;
+    height: auto;
+    display: block;
+}
+
+/* Date & Time overlay */
+.datetime {
+    position: absolute;
+    top: 50%;
+    right: 60px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Roboto', sans-serif;
+    z-index: 10;
+}
+
+.date {
+    color: #8B1A1A;
+    font-size: clamp(11px, 1.2vw, 16px);
+    font-weight: bold;
+}
+
+.time {
+    background: #8B1A1A;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: clamp(11px, 1.2vw, 16px);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* -------------------------------
+   NAVIGATION / SIDE HEADER
+-------------------------------- */
+.nav-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 50px;
+    gap: 10px;
+}
+
+.side {
+    height: auto;
+    max-width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------
+   FOOTER (PUP Motto)
+-------------------------------- */
+.footer-img {
+    display: block;
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #8B1A1A;
+    font-size: 1.2rem;
+    font-style: italic;
+    max-width: 90%;
+    height: auto;
+}
+
+/* -------------------------------
+   📱 RESPONSIVE DESIGN
+-------------------------------- */
+
+/* Laptops & Tablets (≤1024px) */
+@media (max-width: 1024px) {
+    .header-img {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        height: auto;
+        width: 90%;
+        /* keeps it responsive */
+    }
+
+    .datetime {
+        top: 40px;
+        right: 40px;
+        transform: none;
+    }
+
+    .date {
+        font-size: 13px;
+    }
+
+    .time {
+        font-size: 14px;
+        padding: 4px 10px;
+    }
+
+    .nav-top {
+        padding: 10px 30px;
+        width: 150%;
+        /* ✅ changed from 250% */
+        overflow-x: hidden;
+        /* ✅ prevents horizontal scrolling */
+        display: flex;
+        justify-content: center;
+    }
+
+    .footer-img {
+        width: 30%;
+        max-width: 600px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        /* ✅ centers footer image */
+    }
+}
+
+/* Tablets & Medium Screens (≤768px) */
+@media (max-width: 768px) {
+    .datetime {
+        position: absolute;
+        top: auto;
+        bottom: 20px;
+        right: 25px;
+        transform: none;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+    }
+
+    .time {
+        padding: 4px 10px;
+    }
+
+    .nav-top {
+        justify-content: center;
+        padding: 10px 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .footer-img {
+        font-size: 1rem;
+        bottom: 25px;
+    }
+}
+
+/* Small Phones (≤480px) */
+@media (max-width: 480px) {
+    .datetime {
+        bottom: 15px;
+        right: 15px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+    }
+
+    .date,
+    .time {
+        font-size: 12px;
+    }
+
+    .time {
+        padding: 3px 8px;
+    }
+
+    .nav-top {
+        padding: 5px 10px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .footer-img {
+        font-size: 0.9rem;
+        bottom: 20px;
+    }
+}
+
+
+
+
+
+
+
+/* ===========================
+   Bottom fixed nav buttons (Raised + Larger)
+=========================== */
+.bottom-section {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    /* ⬆️ raised higher from bottom */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(20px, 6vw, 80px);
+    z-index: 1000;
+}
+
+.bottom-section .btn {
+    background: #8B1A1A;
+    /* maroon */
+    color: #fff;
+    border: none;
+    height: clamp(56px, 7.5vh, 70px);
+    /* ⬆️ taller */
+    padding: 0 clamp(28px, 4vw, 60px);
+    /* ⬆️ wider */
+    border-radius: 18px;
+    /* ⬆️ slightly rounder */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: clamp(15px, 1.4vw, 22px);
+    /* ⬆️ bigger text */
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bottom-section .btn i {
+    font-size: 1.2em;
+    /* ⬆️ larger icon */
+    line-height: 1;
+}
+
+.bottom-section .btn:hover {
+    background: #6B0A0A;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .28);
+}
+
+.bottom-section .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .2);
+}
+
+.bottom-section .btn:focus-visible {
+    outline: 4px solid rgba(139, 26, 26, .25);
+    outline-offset: 3px;
+}
+
+/* Adjust the footer tagline to stay centered between buttons */
+.footer-img {
+    z-index: 900;
+    bottom: 40px;
+    /* ⬆️ raised slightly to align visually */
+}
+
+/* Responsive tweak */
+@media (max-width: 560px) {
+    .bottom-section {
+        bottom: 40px;
+        padding: 0 16px;
+    }
+
+    .bottom-section .btn {
+        height: 56px;
+        padding: 0 24px;
+        font-size: 16px;
+        border-radius: 14px;
+    }
+}
+
+
+
+
+/* ================================
+   FINAL ADJUSTMENT — Raise Form Higher Again
+   + Slightly wider spacing between fields
+================================ */
+@media (max-width: 1024px) {
+
+
+    /* was 24px */
+    .col-4,
+    .col-6 {
+        padding-right: 14px;
+    }
+
+    /* more space on each cell */
+
+    /* remove padding on last field per row */
+    .col-4:nth-child(3n),
+    .col-6:nth-child(2n) {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+
+
+    /* stacked layout — keep vertical gaps only */
+    .col-4,
+    .col-6 {
+        padding-right: 0;
+    }
+
+    form {
+        column-gap: 0 !important;
+        row-gap: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+
+
+    .col-4,
+    .col-6 {
+        padding-right: 0;
+    }
+
+    form {
+        column-gap: 0 !important;
+        row-gap: 20px;
+    }
+}
+
+
+
+/* ================================
+   EXTRA SPACING: Year Level ↔ Program
+   + Lower Back & Continue Buttons
+================================ */
+@media (max-width: 1024px) {
+
+    /* extra space between Year Level & Program */
+    .col-6:nth-child(4) {
+        padding-right: 22px;
+    }
+
+    /* Year Level */
+    .col-6:nth-child(5) {
+        padding-left: 22px;
+    }
+
+    /* Program */
+
+    /* lower Back & Continue buttons */
+    .bottom-section {
+        bottom: 30px !important;
+        /* move buttons lower */
+    }
+
+
+
+    /* adjust tagline for alignment */
+    .footer-img {
+        bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .col-6:nth-child(4),
+    .col-6:nth-child(5) {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .bottom-section {
+        bottom: 25px !important;
+        /* slightly lower on tablets */
+    }
+
+
+
+    .footer-img {
+        bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .bottom-section {
+        bottom: 20px !important;
+    }
+
+
+
+    .footer-img {
+        bottom: 10px;
+    }
+}
+
+
+
+
+
+
+/* === FORM CONTAINER === */
+.form-container {
+    margin: clamp(0px, 2vh, 20px) auto 50px;
+    text-align: center;
+    max-width: clamp(900px, 85vw, 1100px);
+    padding: 0 clamp(20px, 4vw, 40px);
+}
+
+/* Reduce space between "Submit Document" and success box */
+.form-container h2 {
+    color: #8B1A1A;
+    font-size: clamp(18px, 2.2vw, 32px);
+    font-weight: bold;
+    margin-bottom: 20px;
+    /* ↓ was probably 30px or more before */
+    text-transform: uppercase;
+}
+
+
+
+
+
+
+
+
+/* ================================
+   Raise success card higher
+================================ */
+.record-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 400px);
+    /* ⬆️ raised higher */
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+
+.record-card {
+    width: min(92vw, 1100px);
+    margin: 18px auto 0;
+    padding: clamp(28px, 5vw, 56px) clamp(20px, 4vw, 64px);
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, .08), 0 2px 8px rgba(0, 0, 0, .06);
+    text-align: center;
+    animation: pop-in .35s ease-out both;
+}
+
+.icon-circle {
+    width: clamp(72px, 10vw, 120px);
+    height: clamp(72px, 10vw, 120px);
+    border-radius: 50%;
+    background: #8B1A1A;
+    /* maroon */
+    margin: 6px auto 18px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 16px rgba(139, 26, 26, .25);
+}
+
+.checkmark {
+    width: clamp(28px, 5vw, 56px);
+    height: clamp(28px, 5vw, 56px);
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .15));
+}
+
+.success-title {
+    margin: 6px 0 6px;
+    color: #8B1A1A;
+    font-weight: 700;
+    font-size: clamp(18px, 2.2vw, 28px);
+}
+
+.record-card .message {
+    margin: 0 auto;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-size: clamp(14px, 1.4vw, 18px);
+    max-width: 980px;
+}
+
+
+
+/* keep bottom buttons behavior */
+@media (max-width: 560px) {
+    .record-card {
+        padding: 28px 18px;
+    }
+}
+
+
+
+
+
+
+/* Hide the Back button but keep Continue on the right */
+.back-btn {
+    visibility: hidden;
+    /* hide visually but keep space */
+    pointer-events: none;
+    /* disable click */
+}
+
+/* Ensure Continue button stays on the right */
+.bottom-section {
+    justify-content: flex-end !important;
+    padding-right: clamp(40px, 6vw, 80px);
+}
+
+
+/* TRACK DOCUMENT (matches the look in the screenshot) */
+.trackdoc-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 48px 24px 64px;
+}
+
+.trackdoc-card {
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+}
+
+.trackdoc-title {
+    font-family: "Times New Roman", serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 42px;
+    color: #7a0a0a;
+    /* deep maroon */
+    margin: 10px 0 12px;
+    text-transform: uppercase;
+}
+
+.trackdoc-subtitle {
+    font-size: 18px;
+    color: #6b6b6b;
+    margin: 0 0 36px;
+    letter-spacing: .5px;
+}
+
+.trackdoc-label {
+    display: block;
+    font-weight: 600;
+    color: #5b0a0a;
+    margin-bottom: 10px;
+    text-align: left;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.trackdoc-input-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.trackdoc-input {
+    width: 100%;
+    max-width: 680px;
+    padding: 14px 16px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    background: #fff;
+}
+
+.trackdoc-input:focus {
+    border-color: #b51a1a;
+    box-shadow: 0 0 0 3px rgba(181, 26, 26, .08);
+}
+
+.trackdoc-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .05s ease, box-shadow .2s ease;
+}
+
+.trackdoc-btn:active {
+    transform: translateY(1px);
+}
+
+.track-btn {
+    background: #8b0f0f;
+    color: #fff;
+    min-width: 140px;
+    box-shadow: 0 4px 12px rgba(139, 15, 15, .2);
+}
+
+.track-btn:hover {
+    filter: brightness(1.05);
+}
+
+.scan-btn {
+    margin-top: 14px;
+    background: #a31616;
+    color: #fff;
+    width: 100%;
+    max-width: 680px;
+    box-shadow: 0 4px 12px rgba(163, 22, 22, .2);
+}
+
+.trackdoc-motto {
+    margin-top: 36px;
+    color: #7a0a0a;
+    font-style: italic;
+    font-weight: 600;
+}
+
+/* Optional: align your left “Back” button row with this screen */
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+}
+
+
+/* === OVERRIDES: Show Back, Hide Insert Coin === */
+.back-btn {
+    visibility: visible !important;
+    pointer-events: auto !important;
+    display: inline-flex !important;
+}
+
+.continue-btn {
+    display: none !important;
+    /* hides “Insert Coin” */
+}
+
+/* ayusin ang layout: left = Back, center = footer img */
+.bottom-section {
+    justify-content: space-between !important;
+    padding-right: clamp(20px, 6vw, 80px) !important;
+}
+
+
+
+
+
+
+
+
+/* Floating verify message - does not affect layout */
+.verify-msg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    /* toggled via .show */
+    z-index: 10000;
+
+    background: #fff;
+    padding: 16px 22px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    border: 1px solid #e5e7eb;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    min-width: 260px;
+    max-width: 85vw;
+}
+
+/* color variants */
+.verify-msg.info {
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.verify-msg.warn {
+    color: #b45309;
+    border-color: #f59e0b;
+}
+
+.verify-msg.success {
+    color: #065f46;
+    border-color: #10b981;
+}
+
+.verify-msg.error {
+    color: #991b1b;
+    border-color: #991b1b;
+}
+
+/* toggle + subtle animation */
+.verify-msg.show {
+    display: block;
+    animation: popIn .18s ease-out;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -54%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Inputs */
+.trackdoc-input {
+    border-radius: 4px;
+    /* reduced from 10px */
+}
+
+/* Track button */
+.track-btn {
+    border-radius: 4px;
+    /* reduced from 10px */
+}
+
+/* Scan button */
+.scan-btn {
+    border-radius: 4px;
+    /* reduced from 10px */
+}
+
+/* Bottom nav buttons */
+.bottom-section .btn {
+    border-radius: 6px;
+    /* slightly less round from 18px */
+}
+
+/* Floating verify message */
+.verify-msg {
+    border-radius: 6px;
+    /* reduced from 12px */
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+input,
+button,
+div {
+    font-family: 'Roboto', sans-serif;
+}
+
+html,
+body {
+    overflow: hidden;
+    /* ✅ disables ALL scrolling */
+    height: 100%;
+    /* ensures page height fits the viewport */
+}

@@ -1,0 +1,458 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* -------------------------------
+   GENERAL BODY STYLE
+-------------------------------- */
+body {
+    background-image: url('img/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: "Times New Roman", serif;
+    margin: 0;
+    padding: 0;
+    color: #8B1A1A;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+/* -------------------------------
+   HEADER SECTION
+-------------------------------- */
+.header {
+    position: relative;
+    width: 100%;
+    background: white;
+    border-bottom: 3px solid #8B1A1A;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Full-width header image */
+.header-img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    width: 70%;
+    height: auto;
+    display: block;
+}
+
+/* Date & Time overlay */
+.datetime {
+    position: absolute;
+    top: 50%;
+    right: 60px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Roboto', sans-serif;
+    z-index: 10;
+}
+
+.date {
+    color: #8B1A1A;
+    font-size: clamp(11px, 1.2vw, 16px);
+    font-weight: bold;
+}
+
+.time {
+    background: #8B1A1A;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: clamp(11px, 1.2vw, 16px);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* -------------------------------
+   NAVIGATION / SIDE HEADER
+-------------------------------- */
+.nav-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 50px;
+    gap: 10px;
+}
+
+.side {
+    height: auto;
+    max-width: 100%;
+}
+
+/* -------------------------------
+   FOOTER (PUP Motto)
+-------------------------------- */
+.footer-img {
+    display: block;
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #8B1A1A;
+    font-size: 1.2rem;
+    font-style: italic;
+    max-width: 90%;
+    height: auto;
+}
+
+/*--- new*/
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Moves content to the top */
+    min-height: 100vh;
+    padding-top: 80px;
+    /* Adjust this to move it more or less upward */
+}
+
+.welcome-section {
+    margin-bottom: 40px;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #5a0000;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: #7b0000;
+    padding-left: 150px;
+}
+
+.services {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.service-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background-color: #800000;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 30px 80px;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.service-btn:hover {
+    background-color: #a00000;
+    transform: scale(1.03);
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+}
+
+
+.service-btn:hover {
+    background-color: #a00000;
+    transform: scale(1.03);
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+}
+
+/* -------------------------------
+   📱 RESPONSIVE DESIGN
+-------------------------------- */
+
+/* Laptops & Tablets (≤1024px) */
+@media (max-width: 1024px) {
+    .header-img {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        height: auto;
+        width: 90%;
+        /* keeps it responsive */
+    }
+
+    .datetime {
+        top: 40px;
+        right: 40px;
+        transform: none;
+    }
+
+    .date {
+        font-size: 13px;
+    }
+
+    .time {
+        font-size: 14px;
+        padding: 4px 10px;
+    }
+
+    .nav-top {
+        padding: 10px 30px;
+        width: 150%;
+        /* ✅ changed from 250% */
+        overflow-x: hidden;
+        /* ✅ prevents horizontal scrolling */
+        display: flex;
+        justify-content: center;
+    }
+
+    .footer-img {
+        width: 30%;
+        max-width: 600px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        /* ✅ centers footer image */
+    }
+}
+
+/* Tablets & Medium Screens (≤768px) */
+@media (max-width: 768px) {
+    .datetime {
+        position: absolute;
+        top: auto;
+        bottom: 20px;
+        right: 25px;
+        transform: none;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+    }
+
+    .time {
+        padding: 4px 10px;
+    }
+
+    .nav-top {
+        justify-content: center;
+        padding: 10px 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .footer-img {
+        font-size: 1rem;
+        bottom: 25px;
+    }
+}
+
+/* Small Phones (≤480px) */
+@media (max-width: 480px) {
+    .datetime {
+        bottom: 15px;
+        right: 15px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+    }
+
+    .date,
+    .time {
+        font-size: 12px;
+    }
+
+    .time {
+        padding: 3px 8px;
+    }
+
+    .nav-top {
+        padding: 5px 10px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .footer-img {
+        font-size: 0.9rem;
+        bottom: 20px;
+    }
+}
+
+
+
+
+
+
+
+/* -------------------------------
+   📱 RESPONSIVE DESIGN
+-------------------------------- */
+
+@media (max-width: 1024px) {
+    .container {
+        padding-top: 50px;
+        /* added — moves content upward */
+        padding-bottom: 10px;
+        min-height: 100vh;
+        justify-content: flex-start;
+        /* ensures content stays higher */
+    }
+
+    .welcome-title {
+        font-size: 2rem;
+        margin-top: -10px;
+        /* slightly raises just the title */
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+        padding-left: 0;
+        text-align: center;
+        margin-top: -5px;
+        /* also lift the subtitle */
+    }
+
+    .services {
+        gap: 25px;
+        align-items: center;
+    }
+
+    .service-btn {
+        font-size: 1.6rem;
+        padding: 28px 100px;
+        width: 85%;
+        max-width: 550px;
+    }
+
+    .icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+/* Tablets & Medium Screens (≤768px) */
+@media (max-width: 768px) {
+    .container {
+        padding-top: 50px;
+    }
+
+    .welcome-title {
+        font-size: 1.8rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .services {
+        gap: 20px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .service-btn {
+        width: 90%;
+        font-size: 1.4rem;
+        padding: 24px 70px;
+    }
+
+    .icon {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* Small Phones (≤480px) */
+@media (max-width: 480px) {
+    .container {
+        padding-top: 40px;
+    }
+
+    .welcome-title {
+        font-size: 1.5rem;
+        margin-top: 10px;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .services {
+        gap: 15px;
+    }
+
+    .service-btn {
+        width: 95%;
+        font-size: 1.2rem;
+        padding: 20px 40px;
+        border-radius: 8px;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* Reduce rounded edges globally for a sharper, modern look */
+button,
+.service-btn,
+input,
+select,
+textarea {
+    border-radius: 6px !important;
+    /* Softer but not too round */
+}
+
+/* Slightly sharper service buttons */
+.service-btn {
+    border-radius: 4px !important;
+}
+
+/* Keep any circular icons (like status or check) perfectly round */
+.icon-circle {
+    border-radius: 50% !important;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+button {
+    font-family: 'Roboto', sans-serif;
+}
+
+.welcome-title {
+    font-weight: 700;
+}
+
+.subtitle,
+.service-btn {
+    font-weight: 500;
+}
+
+html,
+body {
+    overflow: hidden;
+    /* ✅ disables ALL scrolling */
+    height: 100%;
+    /* ensures page height fits the viewport */
+}
