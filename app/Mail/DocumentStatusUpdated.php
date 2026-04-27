@@ -20,7 +20,7 @@ class DocumentStatusUpdated extends Mailable
 
     public function build()
     {
-        return $this->subject('Transaction ID: ' . $this->document->tracking_code)
+        return $this->subject($this->document->tracking_code . ' - IsKiosk DMS')
                     ->view('emails.document_status_updated');
     }
 }
