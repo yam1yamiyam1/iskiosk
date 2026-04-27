@@ -82,6 +82,19 @@
                             </a>
                         </li>
 
+                        <li class="nav-item {{ request()->is('quick-remarks*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('quick-remarks.index') }}">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="fa-solid fa-comment-dots"
+                                    style="color: {{ request()->is('quick-remarks*') ? '#ff0d0b' : '#720100' }};">
+                                    </i>
+                                </span>
+                                <span class="nav-link-title">
+                                    {{ __('Quick Remarks') }}
+                                </span>
+                            </a>
+                        </li>
+
                         <li class="nav-item dropdown {{ request()->is('users*') ? 'active' : null }}">
                             <a class="nav-link" href="{{ route('users.index') }}">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
