@@ -88,6 +88,20 @@
                             </a>
                         </li>
 
+                        <li class="nav-item <?php echo e(request()->is('quick-remarks*') ? 'active' : ''); ?>">
+                            <a class="nav-link" href="<?php echo e(route('quick-remarks.index')); ?>">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="fa-solid fa-comment-dots"
+                                    style="color: <?php echo e(request()->is('quick-remarks*') ? '#ff0d0b' : '#720100'); ?>;">
+                                    </i>
+                                </span>
+                                <span class="nav-link-title">
+                                    <?php echo e(__('Quick Remarks')); ?>
+
+                                </span>
+                            </a>
+                        </li>
+
                         <li class="nav-item dropdown <?php echo e(request()->is('users*') ? 'active' : null); ?>">
                             <a class="nav-link" href="<?php echo e(route('users.index')); ?>">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">

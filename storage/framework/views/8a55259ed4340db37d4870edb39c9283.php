@@ -271,7 +271,7 @@
                         
                         <div class="mb-2">
                             <?php $__currentLoopData = $quickRemarks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <span class="badge bg-secondary cursor-pointer quick-remark-chip" style="cursor: pointer;" data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
+                                <span class="badge bg-primary text-white cursor-pointer quick-remark-chip" style="cursor: pointer; color: white !important; margin-right: 5px;" data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                         <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
@@ -391,7 +391,7 @@
                             
                             <div class="mb-2">
                                 <?php $__currentLoopData = $quickRemarks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <span class="badge bg-secondary cursor-pointer quick-remark-chip" style="cursor: pointer;" data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
+                                    <span class="badge bg-primary text-white cursor-pointer quick-remark-chip" style="cursor: pointer; color: white !important; margin-right: 5px;" data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                             <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
@@ -479,7 +479,7 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php if (! $__env->hasRenderedOnce('7243268a-8848-4315-91d1-4366a8bddd90')): $__env->markAsRenderedOnce('7243268a-8848-4315-91d1-4366a8bddd90');
+<?php if (! $__env->hasRenderedOnce('4b4ae9bf-3d9d-4bf6-bbf1-d72aaf659862')): $__env->markAsRenderedOnce('4b4ae9bf-3d9d-4bf6-bbf1-d72aaf659862');
 $__env->startPush('page-scripts'); ?>
 <script>
     const documentSearchInput = document.getElementById('document-search-input');
