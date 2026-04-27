@@ -267,7 +267,7 @@
                         
                         <div class="mb-2">
                             @foreach($quickRemarks as $qr)
-                                <span class="badge bg-secondary cursor-pointer quick-remark-chip" style="cursor: pointer;" data-remark="{{ $qr->remark }}">{{ \Illuminate\Support\Str::limit($qr->remark, 30) }}</span>
+                                <span class="badge bg-primary text-white cursor-pointer quick-remark-chip" style="cursor: pointer; color: white !important; margin-right: 5px;" data-remark="{{ $qr->remark }}">{{ \Illuminate\Support\Str::limit($qr->remark, 30) }}</span>
                             @endforeach
                         </div>
                         <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
@@ -387,7 +387,7 @@
                             
                             <div class="mb-2">
                                 @foreach($quickRemarks as $qr)
-                                    <span class="badge bg-secondary cursor-pointer quick-remark-chip" style="cursor: pointer;" data-remark="{{ $qr->remark }}">{{ \Illuminate\Support\Str::limit($qr->remark, 30) }}</span>
+                                    <span class="badge bg-primary text-white cursor-pointer quick-remark-chip" style="cursor: pointer; color: white !important; margin-right: 5px;" data-remark="{{ $qr->remark }}">{{ \Illuminate\Support\Str::limit($qr->remark, 30) }}</span>
                                 @endforeach
                             </div>
                             <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
