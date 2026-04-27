@@ -21,6 +21,11 @@ Route::group(['middleware' => ['auth', 'verified', 'role:1']], function () {
     Route::resource('/users', AdminController::class);
     Route::resource('/types', DocumentTypeController::class);
     Route::resource('/departments', DepartmentController::class);
+    
+    Route::get('/quick-remarks', [\App\Http\Controllers\QuickRemarkController::class, 'index'])->name('quick-remarks.index');
+    Route::post('/quick-remarks', [\App\Http\Controllers\QuickRemarkController::class, 'store'])->name('quick-remarks.store');
+    Route::delete('/quick-remarks/{quickRemark}', [\App\Http\Controllers\QuickRemarkController::class, 'destroy'])->name('quick-remarks.destroy');
+
     Route::get('/dashboard-data', [DashboardController::class, 'getDashboardData'])->name('dashboard.data');
     Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
     Route::post('process-all', [DocumentController::class, 'processAll'])->name('documents.processAll');

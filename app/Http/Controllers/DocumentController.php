@@ -46,8 +46,9 @@ class DocumentController extends Controller
             ->get();
 
         $users = \App\Models\User::all();
+        $quickRemarks = \App\Models\QuickRemark::all();
 
-        return view('admin.document', compact('documents', 'users', 'passes'));
+        return view('admin.document', compact('documents', 'users', 'passes', 'quickRemarks'));
     }
 
     

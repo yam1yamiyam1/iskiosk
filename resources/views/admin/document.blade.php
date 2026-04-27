@@ -265,7 +265,12 @@
                     <div class="mb-3">
                         <label class="form-label">Remark (Optional)</label>
                         
-                        <textarea name="remark" class="form-control" rows="3" maxlength="500"
+                        <div class="mb-2">
+                            @foreach($quickRemarks as $qr)
+                                <span class="badge bg-secondary cursor-pointer quick-remark-chip" style="cursor: pointer;" data-remark="{{ $qr->remark }}">{{ \Illuminate\Support\Str::limit($qr->remark, 30) }}</span>
+                            @endforeach
+                        </div>
+                        <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
                                 placeholder="Enter remark for all documents (optional).."></textarea>
                     </div>
 
@@ -379,7 +384,13 @@
 
                         <div class="mb-3">
                             <label class="form-label">Remark (Optional)</label>
-                            <textarea name="remark" class="form-control" rows="3" maxlength="500"
+                            
+                            <div class="mb-2">
+                                @foreach($quickRemarks as $qr)
+                                    <span class="badge bg-secondary cursor-pointer quick-remark-chip" style="cursor: pointer;" data-remark="{{ $qr->remark }}">{{ \Illuminate\Support\Str::limit($qr->remark, 30) }}</span>
+                                @endforeach
+                            </div>
+                            <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
                                     placeholder="Enter any note or remark (optional)..."></textarea>
                         </div>
                     </div>
@@ -633,5 +644,18 @@
         const modal = new bootstrap.Modal(modalEl);
         modal.show();
     }
+
+    document.querySelectorAll('.quick-remark-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            const remarkText = this.getAttribute('data-remark');
+            const modal = this.closest('.modal');
+            if(modal) {
+                const textarea = modal.querySelector('.remark-textarea');
+                if(textarea) {
+                    textarea.value = remarkText;
+                }
+            }
+        });
+    });
 </script>
 @endpush
