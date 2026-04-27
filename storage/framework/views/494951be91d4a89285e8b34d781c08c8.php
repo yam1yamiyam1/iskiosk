@@ -12,7 +12,7 @@
         $route = Route::currentRouteName();
     ?>
 
-    <?php if($route === 'kiosk.submit'): ?>
+    <?php if($route === 'kiosk.submit' || $route === 'kiosk.claim'): ?>
         <link href="<?php echo e(asset('assets/css/submit.css')); ?>" rel="stylesheet"/>
         
     <?php elseif($route === 'kiosk.track.form'): ?>

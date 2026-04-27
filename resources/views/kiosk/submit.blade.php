@@ -2,9 +2,6 @@
 
 @section('content')
 
-<nav class="nav-top">
-<img src="{{ asset('assets/img/side_header3.png') }}" alt="side_header" class="side">
-</nav>
 <div class="form-container">
   <h2>Submit Document</h2>
   <p class="title-sub">PLEASE FILL UP THE DETAILS BELOW</p>

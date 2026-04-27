@@ -1,6 +1,4 @@
-@extends('layouts.kiosk')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
 <div class="form-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60vh;">
@@ -76,10 +74,7 @@
 
 
 
-{{-- ============================================================
-     TEST MODE PANEL
-     TO REMOVE FOR PRODUCTION: Delete this entire block.
-     ============================================================ --}}
+
 <div id="testModePanel" style="position: fixed; bottom: 20px; right: 20px; background: #1e293b; border-radius: 10px; padding: 12px 16px; z-index: 1100; min-width: 230px; box-shadow: 0 4px 16px rgba(0,0,0,0.35);">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
         <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #f59e0b; text-transform: uppercase;">⚙ Dev / Test Mode</span>
@@ -96,9 +91,7 @@
         </button>
     </div>
 </div>
-{{-- ============================================================
-     END TEST MODE PANEL
-     ============================================================ --}}
+
 
 <div id="loadingModal" class="loading-modal">
     <div class="loading-box">
@@ -220,11 +213,11 @@ function goToStep(step) {
 async function handleScan(code) {
     showLoading('Verifying document...');
     try {
-        const res = await fetch('{{ route('kiosk.claim.verify') }}', {
+        const res = await fetch('<?php echo e(route('kiosk.claim.verify')); ?>', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
             },
             body: JSON.stringify({ tracking_code: code })
         });
@@ -253,11 +246,11 @@ $('#confirmBtn').addEventListener('click', async () => {
     if (!currentTrackingCode) return;
     showLoading('Claiming document...');
     try {
-        const res = await fetch('{{ route('kiosk.claim.confirm') }}', {
+        const res = await fetch('<?php echo e(route('kiosk.claim.confirm')); ?>', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
             },
             body: JSON.stringify({ tracking_code: currentTrackingCode })
         });
@@ -297,4 +290,5 @@ $('#testBarcode').addEventListener('keydown', (e) => {
 goToStep(1);
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.kiosk', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\iskiosk\resources\views/kiosk/claim.blade.php ENDPATH**/ ?>
