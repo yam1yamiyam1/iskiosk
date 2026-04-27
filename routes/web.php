@@ -87,6 +87,10 @@ Route::prefix('kiosk')->middleware('ip')->group(function () {
     Route::post('/submit', [KioskController::class, 'store'])->name('kiosk.store');
     Route::post('/verify-id', [KioskController::class, 'verifyID'])->name('kiosk.verifyID');
     Route::get('/carousel', function () { return view('kiosk.carousel'); })->name('kiosk.carousel');
+    
+    Route::get('/claim', [KioskController::class, 'claim'])->name('kiosk.claim');
+    Route::post('/claim/verify', [KioskController::class, 'verifyClaim'])->name('kiosk.claim.verify');
+    Route::post('/claim/confirm', [KioskController::class, 'confirmClaim'])->name('kiosk.claim.confirm');
 });
 
 require __DIR__.'/auth.php';

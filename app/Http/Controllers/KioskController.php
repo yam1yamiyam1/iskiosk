@@ -218,4 +218,79 @@ class KioskController extends Controller
             ] : null,
         ]);
     }
+
+    public function claim()
+    {
+        return view('kiosk.claim');
+    }
+
+    public function verifyClaim(Request $request)
+    {
+        $request->validate(['tracking_code' => 'required|string']);
+        
+        $document = \App\Models\Document::with(['document_typeb'])->where('tracking_code', $request->tracking_code)->first();
+
+        if (!$document) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Document not found.',
+            ], 404);
+        }
+
+        if ($document->status !== 'Ready for claiming') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Document is not ready for claiming (Current status: ' . $document->status . ').',
+            ], 400);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'document' => [
+                'id' => $document->id,
+                'tracking_code' => $document->tracking_code,
+                'full_name' => $document->surname . ', ' . $document->given_name . ($document->middle_name ? ' ' . $document->middle_name : ''),
+                'document_type' => $document->document_typeb ? $document->document_typeb->name : 'Unknown',
+            ]
+        ]);
+    }
+
+    public function confirmClaim(Request $request)
+    {
+        $request->validate(['tracking_code' => 'required|string']);
+
+        $document = \App\Models\Document::where('tracking_code', $request->tracking_code)->first();
+
+        if (!$document || $document->status !== 'Ready for claiming') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid document or status.',
+            ], 400);
+        }
+
+        $document->update([
+            'status' => 'Claimed',
+            'date_claimed' => now(),
+        ]);
+
+        if ($document->email) {
+            \Illuminate\Support\Facades\Mail::to($document->email)->send(new \App\Mail\DocumentStatusUpdated($document));
+        }
+
+        \App\Models\ActivityLog::create([
+            'user_id' => null,
+            'user_full_name' => 'Kiosk System',
+            'module' => 'Document',
+            'action' => 'Status Updated',
+            'description' => "Document '{$document->tracking_code}' status changed to Claimed via Kiosk.",
+            'ip_address' => $request->ip(),
+            'device' => $request->userAgent(),
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Document successfully claimed.',
+            'tracking_code' => $document->tracking_code,
+        ]);
+    }
 }
