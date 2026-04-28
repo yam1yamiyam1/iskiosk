@@ -1,0 +1,19 @@
+{
+  "name": "serial-bridge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "escpos-serialport": "^3.0.0-alpha.4",
+    "node-thermal-printer": "^4.6.0",
+    "pdf-to-printer": "^5.7.0",
+    "usb": "^2.17.0",
+    "ws": "^8.19.0"
+  }
+}
