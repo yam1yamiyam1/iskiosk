@@ -21,7 +21,7 @@ class DocumentsExport implements FromCollection, WithHeadings, ShouldAutoSize
 
     public function collection()
     {
-        $query = Document::with(['document_typeb', 'programb']);
+        $query = Document::query();
 
         if ($this->startDate) {
             $query->whereDate(
@@ -42,10 +42,10 @@ class DocumentsExport implements FromCollection, WithHeadings, ShouldAutoSize
         return $query->get()->map(function ($doc) {
             return [
                 'Tracking Code' => $doc->tracking_code,
-                'Document Type' => $doc->document_typeb->name ?? '',
+                'Document Type' => $doc->document_type,
                 'Student ID' => $doc->id_number,
                 'Name' => $doc->surname . ', ' . $doc->given_name,
-                'Program' => $doc->programb->name ?? '',
+                'Program' => $doc->program,
                 'Year Level' => $doc->year_level,
                 'Status' => $doc->status,
                 'Remarks' => $doc->remarks,

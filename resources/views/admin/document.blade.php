@@ -93,14 +93,14 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td><b>{{ $document->tracking_code }}</b></td>
-                                    <td>{{ $document->document_typeb->name }}</td>
+                                    <td>{{ $document->document_type }}</td>
                                     <td>{{ $document->id_number }}</td>
                                     <td>
                                         {{ $document->surname }},
                                         {{ $document->given_name }}
                                         {{ $document->middle_name }}
                                     </td>
-                                    <td>{{ $document->programb->name }}</td>
+                                    <td>{{ $document->program }}</td>
                                     <td>
                                         <span class="badge bg-light">
                                             @if($document->status === 'Submitted' && $passes)

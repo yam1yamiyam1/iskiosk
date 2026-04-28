@@ -62,7 +62,7 @@
       <select id="program" name="program" style="width: 373px;" required>
         <option value="" disabled selected>Select your Program</option>
         @foreach($departments as $department)
-          <option value="{{ $department->id }}">{{ $department->name }}</option>
+          <option value="{{ $department->name }}">{{ $department->name }}</option>
         @endforeach
       </select>
     </div>
@@ -72,7 +72,7 @@
       <select id="document_type" name="document_type" style="width: 373px;" required>
         <option value="" disabled selected>Select Document Type</option>
         @foreach($documentTypes as $type)
-          <option value="{{ $type->id }}">{{ $type->name }}</option>
+          <option value="{{ $type->name }}">{{ $type->name }}</option>
         @endforeach
       </select>
     </div>
