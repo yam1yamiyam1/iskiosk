@@ -12,7 +12,10 @@ class IpMiddleware
 
     public function handle($request, Closure $next)
     {
-        if (!in_array($request->ip(), $this->allowedIps)) {
+        $ip = $request->ip();
+
+        // Allow localhost and any local network IP (192.168.*)
+        if (!in_array($ip, $this->allowedIps) && !str_starts_with($ip, '192.168.')) {
             abort(403, 'Access denied.');
         }
 
