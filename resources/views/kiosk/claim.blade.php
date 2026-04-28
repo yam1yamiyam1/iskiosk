@@ -122,7 +122,9 @@ const $ = (sel) => document.querySelector(sel);
 let currentStep = 1;
 let currentTrackingCode = null;
 let idleTimer = null;
+let minimizeTimer = null;
 const IDLE_TIMEOUT = 30000;
+const MINIMIZE_TIMEOUT = 60000;
 
 // UI references
 const step1        = $('#step-1');
@@ -136,9 +138,11 @@ const loadingText  = $('#loadingText');
 const statusModal  = $('#statusModal');
 
 // ─── BARCODE PERIPHERAL ───────────────────────────────────────────────────────
+let ws = null; // Make ws globally accessible for minimize timer
+
 // Uses the WebSocket serial bridge to capture barcode scans.
 function initBarcodePeripheral() {
-    const ws = new WebSocket('ws://localhost:8081');
+    ws = new WebSocket('ws://localhost:8081');
 
     ws.addEventListener('message', async e => {
         if (currentStep !== 1) return; // Only process scans in Step 1
@@ -190,6 +194,15 @@ function resetIdleTimer() {
     }
 }
 
+function resetMinimizeTimer() {
+    clearTimeout(minimizeTimer);
+    minimizeTimer = setTimeout(() => {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ command: 'minimize' }));
+        }
+    }, MINIMIZE_TIMEOUT);
+}
+
 function goToStep(step) {
     currentStep = step;
 
@@ -214,8 +227,13 @@ function goToStep(step) {
 }
 
 ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evt => {
-    document.addEventListener(evt, () => { if (currentStep !== 1) resetIdleTimer(); });
+    document.addEventListener(evt, () => { 
+        if (currentStep !== 1) resetIdleTimer(); 
+        resetMinimizeTimer();
+    });
 });
+
+resetMinimizeTimer(); // Start the timer on page load
 
 async function handleScan(code) {
     showLoading('Verifying document...');
