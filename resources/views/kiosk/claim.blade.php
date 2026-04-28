@@ -136,27 +136,27 @@ const loadingText  = $('#loadingText');
 const statusModal  = $('#statusModal');
 
 // ─── BARCODE PERIPHERAL ───────────────────────────────────────────────────────
-// To swap to a different peripheral (WebSocket, serial, HID), replace the body
-// of initBarcodePeripheral(). Contract: call handleScan(trackingCode) with the
-// raw scanned string. Do not change anything else.
-let barcodeBuffer = '';
-let barcodeTimeout = null;
-
+// Uses the WebSocket serial bridge to capture barcode scans.
 function initBarcodePeripheral() {
-    document.addEventListener('keydown', (e) => {
-        if (document.activeElement === $('#testBarcode')) return;
-        if (currentStep !== 1) return;
+    const ws = new WebSocket('ws://localhost:8081');
 
-        if (e.key === 'Enter') {
-            if (barcodeBuffer.length > 0) {
-                handleScan(barcodeBuffer.trim());
-                barcodeBuffer = '';
-            }
-        } else if (e.key.length === 1) {
-            barcodeBuffer += e.key;
-            clearTimeout(barcodeTimeout);
-            barcodeTimeout = setTimeout(() => { barcodeBuffer = ''; }, 100);
+    ws.addEventListener('message', async e => {
+        if (currentStep !== 1) return; // Only process scans in Step 1
+
+        let msg = e.data.trim();
+        console.log("📩 Scan received via WebSocket:", msg);
+        
+        if (msg) {
+            handleScan(msg);
         }
+    });
+
+    ws.addEventListener('open', () => {
+        console.log("✅ WebSocket connected for scanner.");
+    });
+
+    ws.addEventListener('error', (err) => {
+        console.error("❌ WebSocket error:", err);
     });
 }
 
