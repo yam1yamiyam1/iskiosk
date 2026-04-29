@@ -258,9 +258,9 @@
 
                 <div class="modal-body">
                     <div class="mb-3 text-center">
-                        <span class="badge bg-secondary">Collected and Processing</span>
+                        <span class="badge bg-secondary text-white">Collected and Processing</span>
                         <i class="fas fa-arrow-right mx-2 text-muted"></i>
-                        <span class="badge bg-warning">Ready for Claiming</span>
+                        <span class="badge bg-warning text-white">Ready for Claiming</span>
                     </div>
 
                     <p>
@@ -420,9 +420,9 @@
 
                     <div class="modal-body">
                         <div class="mb-3 text-center">
-                            <span class="badge bg-secondary">Collected and Processing</span>
+                            <span class="badge bg-secondary text-white">Collected and Processing</span>
                             <i class="fas fa-arrow-right mx-2 text-muted"></i>
-                            <span class="badge bg-warning">Ready for Claiming</span>
+                            <span class="badge bg-warning text-white">Ready for Claiming</span>
                         </div>
                         
                         <div class="card mb-3 bg-light">
@@ -482,9 +482,9 @@
 
                     <div class="modal-body">
                         <div class="mb-3 text-center">
-                            <span class="badge bg-warning">Ready for Claiming</span>
+                            <span class="badge bg-warning text-white">Ready for Claiming</span>
                             <i class="fas fa-arrow-right mx-2 text-muted"></i>
-                            <span class="badge bg-success">Claimed</span>
+                            <span class="badge bg-success text-white">Claimed</span>
                         </div>
                         
                         <div class="card mb-3 bg-light">
@@ -521,9 +521,9 @@
 
                     <div class="modal-body">
                         <div class="mb-3 text-center">
-                            <span class="badge bg-secondary">Submitted</span>
+                            <span class="badge bg-secondary text-white">Submitted</span>
                             <i class="fas fa-arrow-right mx-2 text-danger"></i>
-                            <span class="badge bg-danger">Claimed (Override)</span>
+                            <span class="badge bg-danger text-white">Claimed (Override)</span>
                         </div>
                         
                         <div class="card mb-3 bg-light">
@@ -696,10 +696,10 @@
                 document.getElementById('c_contact').innerText = data.document.contact_number;
                 
                 const statusBadgeMap = {
-                    'Submitted': '<span class="badge bg-secondary">Submitted</span>',
-                    'Collected and Processing': '<span class="badge bg-secondary">Collected and Processing</span>',
-                    'Ready for claiming': '<span class="badge bg-warning">Ready for Claiming</span>',
-                    'Claimed': '<span class="badge bg-success">Claimed</span>'
+                    'Submitted': '<span class="badge bg-secondary text-white">Submitted</span>',
+                    'Collected and Processing': '<span class="badge bg-secondary text-white">Collected and Processing</span>',
+                    'Ready for claiming': '<span class="badge bg-warning text-white">Ready for Claiming</span>',
+                    'Claimed': '<span class="badge bg-success text-white">Claimed</span>'
                 };
                 
                 document.getElementById('c_status_badge').innerHTML = statusBadgeMap[currentStatus] || `<span class="badge bg-light text-dark">${currentStatus}</span>`;
@@ -708,20 +708,20 @@
                 let footerHtml = '';
 
                 if (currentStatus === 'Submitted') {
-                    nextStatusBadge = '<span class="badge bg-secondary">Collected and Processing</span>';
+                    nextStatusBadge = '<span class="badge bg-secondary text-white">Collected and Processing</span>';
                     footerHtml = `
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button class="btn btn-danger ms-auto" id="overrideScanBtn">Override to Claimed</button>
                         <button class="btn btn-primary" id="confirmScanBtn">Collect Document</button>
                     `;
                 } else if (currentStatus === 'Collected and Processing') {
-                    nextStatusBadge = '<span class="badge bg-warning">Ready for Claiming</span>';
+                    nextStatusBadge = '<span class="badge bg-warning text-white">Ready for Claiming</span>';
                     footerHtml = `
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button class="btn btn-primary" id="confirmScanBtn">Confirm Update</button>
                     `;
                 } else if (currentStatus === 'Ready for claiming') {
-                    nextStatusBadge = '<span class="badge bg-success">Claimed</span>';
+                    nextStatusBadge = '<span class="badge bg-success text-white">Claimed</span>';
                     footerHtml = `
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button class="btn btn-primary" id="confirmScanBtn">Confirm Update</button>
