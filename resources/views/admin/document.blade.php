@@ -348,48 +348,23 @@
 <div class="modal fade" id="scanConfirmModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title"><i class="fas fa-barcode"></i> Verify Document</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Scan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
-                <div class="text-center mb-3">
-                    <span class="badge bg-dark fs-3 py-2 px-4" id="c_tracking"></span>
+                <div class="mb-3 text-center">
+                    <span id="c_status_badge"></span>
+                    <i class="fas fa-arrow-right mx-2 text-muted"></i>
+                    <span id="c_update_badge"></span>
                 </div>
                 
-                <div class="row mb-3" style="font-size: 0.95em;">
-                    <div class="col-12 mb-2">
-                        <span class="text-muted d-block" style="font-size: 0.85em;">Full Name</span>
-                        <strong id="c_fullname"></strong>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <span class="text-muted d-block" style="font-size: 0.85em;">Program & Year</span>
-                        <strong id="c_program_year"></strong>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <span class="text-muted d-block" style="font-size: 0.85em;">Document Type</span>
-                        <strong id="c_doc"></strong>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <span class="text-muted d-block" style="font-size: 0.85em;">Email</span>
-                        <strong id="c_email"></strong>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <span class="text-muted d-block" style="font-size: 0.85em;">Contact</span>
-                        <strong id="c_contact"></strong>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded border">
-                    <div>
-                        <span class="text-muted d-block" style="font-size: 0.85em;">Current Status</span>
-                        <span id="c_status_badge"></span>
-                    </div>
-                    <i class="fas fa-arrow-right text-muted"></i>
-                    <div class="text-end">
-                        <span class="text-muted d-block" style="font-size: 0.85em;">Update To</span>
-                        <span id="c_update_badge"></span>
+                <div class="card mb-3 bg-light">
+                    <div class="card-body p-2" style="font-size: 0.9em;">
+                        <strong>Tracker ID:</strong> <span id="c_tracking"></span><br>
+                        <strong>Student:</strong> <span id="c_fullname"></span><br>
+                        <strong>Document:</strong> <span id="c_doc"></span>
                     </div>
                 </div>
 
@@ -689,11 +664,8 @@
                 scanAction = 'process';
 
                 document.getElementById('c_tracking').innerText = code;
-                document.getElementById('c_fullname').innerText = data.document.fullname;
-                document.getElementById('c_program_year').innerText = data.document.program + ' - ' + data.document.year_level;
+                document.getElementById('c_fullname').innerText = data.document.surname + ', ' + data.document.given_name;
                 document.getElementById('c_doc').innerText = data.document.document_type;
-                document.getElementById('c_email').innerText = data.document.email;
-                document.getElementById('c_contact').innerText = data.document.contact_number;
                 
                 const statusBadgeMap = {
                     'Submitted': '<span class="badge bg-secondary text-white">Submitted</span>',
