@@ -296,7 +296,61 @@ class DocumentController extends Controller
             return response()->json(['status' => 'not_found']);
         }
 
-        if ($document->status === 'Collected and Processing') {
+        $action = $request->input('action', 'process');
+
+        if ($document->status === 'Submitted') {
+            if ($action === 'override') {
+                $finalRemark = '[OVERRIDE] No kiosk waiting required.';
+                if (!empty($document->remarks)) {
+                    $finalRemark .= ' ' . $document->remarks;
+                }
+                
+                $document->status = 'Claimed';
+                $document->date_claimed = now();
+                $document->remarks = $finalRemark;
+                $document->save();
+                
+                if ($document->email) {
+                    Mail::to($document->email)->send(new DocumentStatusUpdated($document));
+                }
+
+                ActivityLog::create([
+                    'user_id' => Auth::id(),
+                    'user_full_name' => Auth::user()->lname . ', ' . Auth::user()->fname,
+                    'module' => 'Document',
+                    'action' => 'Override Submitted',
+                    'description' => "Document '{$document->tracking_code}' overridden from Submitted to Claimed via scan.",
+                    'ip_address' => request()->ip(),
+                    'device' => request()->userAgent(),
+                ]);
+
+                return response()->json([
+                    'status' => 'updated',
+                    'new_status' => 'Claimed'
+                ]);
+            } else {
+                $document->status = 'Collected and Processing';
+                $document->save();
+                if ($document->email) {
+                    Mail::to($document->email)->send(new DocumentStatusUpdated($document));
+                }
+
+                ActivityLog::create([
+                    'user_id' => Auth::id(),
+                    'user_full_name' => Auth::user()->lname . ', ' . Auth::user()->fname,
+                    'module' => 'Document',
+                    'action' => 'Status Updated',
+                    'description' => "Document '{$document->tracking_code}' status changed to Collected and Processing via scan.",
+                    'ip_address' => request()->ip(),
+                    'device' => request()->userAgent(),
+                ]);
+
+                return response()->json([
+                    'status' => 'updated',
+                    'new_status' => 'Collected and Processing'
+                ]);
+            }
+        } elseif ($document->status === 'Collected and Processing') {
             $document->status = 'Ready for claiming';
             $document->save();
             if ($document->email) {
@@ -308,7 +362,7 @@ class DocumentController extends Controller
                 'user_full_name' => Auth::user()->lname . ', ' . Auth::user()->fname,
                 'module' => 'Document',
                 'action' => 'Status Updated',
-                'description' => "Document '{$document->tracking_code}' status changed to Ready for Claiming.",
+                'description' => "Document '{$document->tracking_code}' status changed to Ready for Claiming via scan.",
                 'ip_address' => request()->ip(),
                 'device' => request()->userAgent(),
             ]);
@@ -329,7 +383,7 @@ class DocumentController extends Controller
                 'user_full_name' => Auth::user()->lname . ', ' . Auth::user()->fname,
                 'module' => 'Document',
                 'action' => 'Status Updated',
-                'description' => "Document '{$document->tracking_code}' status changed to Claimed.",
+                'description' => "Document '{$document->tracking_code}' status changed to Claimed via scan.",
                 'ip_address' => request()->ip(),
                 'device' => request()->userAgent(),
             ]);
