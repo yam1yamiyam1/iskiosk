@@ -393,7 +393,7 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-3 text-muted" style="font-size: 0.85em;">
+                <div class="text-center mt-3 text-muted" id="scanKeyboardShortcuts" style="font-size: 0.85em;">
                     <kbd>Enter</kbd> to confirm &nbsp;&nbsp; <kbd>Esc</kbd> to cancel
                 </div>
             </div>
@@ -708,6 +708,7 @@
                 let footerHtml = '';
 
                 if (currentStatus === 'Submitted') {
+                    document.getElementById('scanKeyboardShortcuts').style.display = 'none';
                     nextStatusBadge = '<span class="badge bg-secondary text-white">Collected and Processing</span>';
                     footerHtml = `
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -715,18 +716,21 @@
                         <button class="btn btn-primary" id="confirmScanBtn">Collect Document</button>
                     `;
                 } else if (currentStatus === 'Collected and Processing') {
+                    document.getElementById('scanKeyboardShortcuts').style.display = 'block';
                     nextStatusBadge = '<span class="badge bg-warning text-white">Ready for Claiming</span>';
                     footerHtml = `
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button class="btn btn-primary" id="confirmScanBtn">Confirm Update</button>
                     `;
                 } else if (currentStatus === 'Ready for claiming') {
+                    document.getElementById('scanKeyboardShortcuts').style.display = 'block';
                     nextStatusBadge = '<span class="badge bg-success text-white">Claimed</span>';
                     footerHtml = `
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button class="btn btn-primary" id="confirmScanBtn">Confirm Update</button>
                     `;
                 } else {
+                    document.getElementById('scanKeyboardShortcuts').style.display = 'block';
                     nextStatusBadge = '<span class="badge bg-light text-dark">No action</span>';
                     footerHtml = `<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`;
                 }
@@ -764,6 +768,9 @@
     document.addEventListener('keydown', function(e) {
         const scanModalEl = document.getElementById('scanConfirmModal');
         if (scanModalEl.classList.contains('show')) {
+            if (scannedDocument && scannedDocument.current_status === 'Submitted') {
+                return; // Disable custom enter/esc handling when there are multiple options
+            }
             if (e.key === 'Enter') {
                 e.preventDefault();
                 const confirmBtn = document.getElementById('confirmScanBtn');
