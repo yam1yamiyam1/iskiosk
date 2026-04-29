@@ -664,7 +664,7 @@
                 scanAction = 'process';
 
                 document.getElementById('c_tracking').innerText = code;
-                document.getElementById('c_fullname').innerText = data.document.surname + ', ' + data.document.given_name;
+                document.getElementById('c_fullname').innerText = data.document.fullname;
                 document.getElementById('c_doc').innerText = data.document.document_type;
                 
                 const statusBadgeMap = {
