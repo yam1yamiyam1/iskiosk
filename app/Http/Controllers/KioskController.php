@@ -30,6 +30,17 @@ class KioskController extends Controller
         return view('kiosk.home');
     }
 
+    public function carousel()
+    {
+        $carouselSlides = collect(glob(public_path('assets/img/kiosk-carousel/*.png')) ?: [])
+            ->sort(SORT_NATURAL)
+            ->values()
+            ->map(fn ($path) => asset('assets/img/kiosk-carousel/'.basename($path)))
+            ->all();
+
+        return view('kiosk.carousel', compact('carouselSlides'));
+    }
+
     public function create()
     {
         $departments   = Department::orderBy('name')->get();

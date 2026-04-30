@@ -1,0 +1,233 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Calibri;}}
+\fs24
+\b ISKiosk Documentation Template\b0\par
+\par
+\b database/migrations/\b0\par
+\par
+/0001_01_01_000000_create_users_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates users, password reset tokens, and sessions tables used for account login, reset, and session tracking.\par
+\par
+/0001_01_01_000001_create_cache_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates Laravel cache and cache lock tables for database-backed caching.\par
+\par
+/0001_01_01_000002_create_jobs_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates queue tables (jobs, job_batches, failed_jobs) for background/asynchronous processing.\par
+\par
+/2026_01_06_023847_create_roles_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates roles and role_users pivot tables for staff/admin role assignment.\par
+\par
+/2026_01_19_070431_create_activity_logs_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates activity log table to audit actions, actor, module, device, and IP.\par
+\par
+/2026_01_19_070431_create_departments_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates departments table for department/program reference values.\par
+\par
+/2026_01_19_070431_create_document_types_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates document_types table for available requestable document categories.\par
+\par
+/2026_01_19_070432_create_documents_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates core documents table for each request, including tracking code, status, and claim/email metadata.\par
+\par
+/2026_01_19_070433_create_batch_documents_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates batch_documents table for grouping and finalizing document processing batches.\par
+\par
+/2026_02_06_094650_create_students_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates students table to store student profile/master data used during submissions and verification.\par
+\par
+/2026_02_23_165123_create_passes_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates passes table that links tracking code, staff reference, and document IDs.\par
+\par
+/2026_03_31_113952_add_barcode_to_users_table.php\par
+<-placeholder for source code->\par
+Explanation: Adds unique barcode field to users for scanner-based staff identification.\par
+\par
+/2026_04_28_000000_create_quick_remarks_table.php\par
+<-placeholder for source code->\par
+Explanation: Creates quick_remarks table for reusable short remarks during status updates.\par
+\par
+\b routes/\b0\par
+\par
+/web.php\par
+<-placeholder for source code->\par
+Explanation: Main route file for admin, authenticated dashboard/document/student/profile routes, and kiosk submit/claim flow.\par
+\par
+/auth.php\par
+<-placeholder for source code->\par
+Explanation: Authentication route file for login, register, forgot/reset password, email verification, and logout.\par
+\par
+\b app/Http/Controllers/\b0\par
+\par
+/Controller.php\par
+<-placeholder for source code->\par
+Explanation: Base controller class extended by application controllers.\par
+\par
+/ActivityLogController.php\par
+<-placeholder for source code->\par
+Explanation: Displays and filters activity logs by module/date, then formats display timestamps.\par
+\par
+/AdminController.php\par
+<-placeholder for source code->\par
+Explanation: Manages users (create/update/delete), role assignment, status toggling, barcode generation, and barcode PDF export with activity logging.\par
+\par
+/DashboardController.php\par
+<-placeholder for source code->\par
+Explanation: Builds dashboard counters/charts and serves AJAX graph data for different date ranges.\par
+\par
+/DepartmentController.php\par
+<-placeholder for source code->\par
+Explanation: CRUD for departments with validation and activity logging.\par
+\par
+/DocumentController.php\par
+<-placeholder for source code->\par
+Explanation: Main document workflow controller for listing records, bulk/single status transitions, scan confirmation, override, export, and notification emails.\par
+\par
+/DocumentTypeController.php\par
+<-placeholder for source code->\par
+Explanation: CRUD for document types with validation and activity logging.\par
+\par
+/KioskController.php\par
+<-placeholder for source code->\par
+Explanation: Handles kiosk-side submit/verify/claim flows, student updates, tracking code creation, and claim confirmation.\par
+\par
+/ProfileController.php\par
+<-placeholder for source code->\par
+Explanation: Handles profile edit/update/delete for authenticated users, including image/password updates and profile activity logs.\par
+\par
+/QuickRemarkController.php\par
+<-placeholder for source code->\par
+Explanation: Lists, creates, and deletes reusable quick remarks.\par
+\par
+/StudentController.php\par
+<-placeholder for source code->\par
+Explanation: CRUD for student records with validation, change tracking, and activity logs.\par
+\par
+\b app/Http/Controllers/Auth/\b0\par
+\par
+/AuthenticatedSessionController.php\par
+<-placeholder for source code->\par
+Explanation: Current login/logout controller with account status checks, role redirect, session handling, and auth activity logs.\par
+\par
+/ConfirmablePasswordController.php\par
+<-placeholder for source code->\par
+Explanation: Confirms current password before sensitive actions.\par
+\par
+/EmailVerificationNotificationController.php\par
+<-placeholder for source code->\par
+Explanation: Sends verification email notifications for authenticated users.\par
+\par
+/EmailVerificationPromptController.php\par
+<-placeholder for source code->\par
+Explanation: Shows email verification prompt unless user is already verified.\par
+\par
+/NewPasswordController.php\par
+<-placeholder for source code->\par
+Explanation: Handles reset-password form display and token-based password update.\par
+\par
+/PasswordController.php\par
+<-placeholder for source code->\par
+Explanation: Updates password for authenticated users after validating current password.\par
+\par
+/PasswordResetLinkController.php\par
+<-placeholder for source code->\par
+Explanation: Displays forgot-password page and sends reset link emails.\par
+\par
+/RegisteredUserController.php\par
+<-placeholder for source code->\par
+Explanation: Handles user registration, registration event dispatch, and auto-login.\par
+\par
+/VerifyEmailController.php\par
+<-placeholder for source code->\par
+Explanation: Marks email as verified using signed verification links.\par
+\par
+/LoginController.php\par
+<-placeholder for source code->\par
+Explanation: Legacy/alternate login controller using AuthenticatesUsers trait with custom role redirect/logging.\par
+\par
+\b serial-bridge/\b0\par
+\par
+/server.js\par
+<-placeholder for source code->\par
+Explanation: Hardware bridge between scanner/Arduino serial ports and WebSocket clients, including barcode printing logic.\par
+\par
+/testing.js\par
+<-placeholder for source code->\par
+Explanation: Mock WebSocket bridge that simulates scans and drawer responses for testing.\par
+\par
+\b claim-bridge/\b0\par
+\par
+/claim-bridge.js\par
+<-placeholder for source code->\par
+Explanation: Claim station bridge that reads scanner input, controls browser window state, and forwards scan data via WebSocket.\par
+\par
+\b app/Models/\b0\par
+\par
+/ActivityLog.php\par
+<-placeholder for source code->\par
+Explanation: Activity log model with fillable audit fields and relation to user.\par
+\par
+/BatchDocument.php\par
+<-placeholder for source code->\par
+Explanation: Batch document model with status/timestamp casting and relations to document/user.\par
+\par
+/Department.php\par
+<-placeholder for source code->\par
+Explanation: Department reference model.\par
+\par
+/Document.php\par
+<-placeholder for source code->\par
+Explanation: Core document request model with fields for status workflow, tracking, and relationships.\par
+\par
+/DocumentType.php\par
+<-placeholder for source code->\par
+Explanation: Document type reference model.\par
+\par
+/Pass.php\par
+<-placeholder for source code->\par
+Explanation: Pass model storing tracking code, staff reference, and related document IDs.\par
+\par
+/QuickRemark.php\par
+<-placeholder for source code->\par
+Explanation: Quick remark model used for reusable remarks.\par
+\par
+/Role.php\par
+<-placeholder for source code->\par
+Explanation: Role model connected to users through role_users pivot.\par
+\par
+/Student.php\par
+<-placeholder for source code->\par
+Explanation: Student model with document relation by ID number.\par
+\par
+/User.php\par
+<-placeholder for source code->\par
+Explanation: Main user model with auth traits, role helpers, active check, and custom notification behavior.\par
+\par
+\b app/Mail/\b0\par
+\par
+/DocumentStatusUpdated.php\par
+<-placeholder for source code->\par
+Explanation: Mailable used to notify requesters when document status changes.\par
+\par
+\b app/Notifications/\b0\par
+\par
+/CustomResetPassword.php\par
+<-placeholder for source code->\par
+Explanation: Custom password reset notification using app-specific email template and reset URL.\par
+\par
+\b Arduino\b0\par
+\par
+/drawer.ino\par
+<-placeholder for source code->\par
+Explanation: Arduino firmware for two lock-controlled drawers, ultrasonic drawer availability checks, and serial commands (check/open/close drawers).\par
+}

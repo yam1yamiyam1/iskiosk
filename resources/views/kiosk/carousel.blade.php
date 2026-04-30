@@ -2,12 +2,11 @@
 
 @section('content')
 <div id="fullscreenCarousel" class="fullscreen-carousel">
-    <div class="carousel-slide active">
-        <img src="{{ asset('assets/img/carousel1.jpg') }}" alt="Slide 1">
-    </div>
-    <div class="carousel-slide">
-        <img src="{{ asset('assets/img/carousel2.jpeg') }}" alt="Slide 2">
-    </div>
+    @foreach ($carouselSlides as $index => $src)
+        <div class="carousel-slide {{ $index === 0 ? 'active' : '' }}">
+            <img src="{{ $src }}" alt="How to use — step {{ $index + 1 }}">
+        </div>
+    @endforeach
 
     <div id="carouselReminder" class="carousel-reminder">
         Touch or click to go to home page
@@ -33,14 +32,16 @@
 .carousel-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    background: #000;
 }
 .carousel-slide.active {
     display: block;
     animation: fade 1s;
 }
 @keyframes fade {
-    from {opacity:0;} 
+    from {opacity:0;}
     to {opacity:1;}
 }
 
@@ -65,6 +66,8 @@
 const slides = document.querySelectorAll('.carousel-slide');
 let currentSlide = 0;
 const totalSlides = slides.length;
+/** Time each slide is shown (ms). 9s fits instructional “how to use” slides so text can be read. */
+const SLIDE_INTERVAL_MS = 9000;
 
 function showSlide(index){
     slides.forEach((s,i)=>s.classList.toggle('active', i===index));
@@ -73,7 +76,7 @@ function showSlide(index){
 const slideInterval = setInterval(()=>{
     currentSlide = (currentSlide+1)%totalSlides;
     showSlide(currentSlide);
-},5000);
+}, SLIDE_INTERVAL_MS);
 
 showSlide(currentSlide);
 
