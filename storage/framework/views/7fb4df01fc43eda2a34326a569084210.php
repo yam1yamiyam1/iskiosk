@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
 
 <div class="form-container">
@@ -62,7 +60,7 @@
       <select id="program" name="program" style="width: 373px;" required>
         <option value="" disabled selected>Select your Program</option>
         <?php $__currentLoopData = $departments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($department->id); ?>"><?php echo e($department->name); ?></option>
+          <option value="<?php echo e($department->name); ?>"><?php echo e($department->name); ?></option>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       </select>
     </div>
@@ -72,7 +70,7 @@
       <select id="document_type" name="document_type" style="width: 373px;" required>
         <option value="" disabled selected>Select Document Type</option>
         <?php $__currentLoopData = $documentTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($type->id); ?>"><?php echo e($type->name); ?></option>
+          <option value="<?php echo e($type->name); ?>"><?php echo e($type->name); ?></option>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       </select>
     </div>

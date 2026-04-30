@@ -38,7 +38,7 @@
                                 <tr>
                                     <td><?php echo e($index + 1); ?></td>
                                     <td><b><?php echo e($document->tracking_code); ?></b></td>
-                                    <td><?php echo e($document->document_typeb->name); ?></td>
+                                    <td><?php echo e($document->document_type); ?></td>
                                     <td><?php echo e($document->id_number); ?></td>
                                     <td>
                                         <?php echo e($document->surname); ?>,
@@ -47,7 +47,7 @@
                                         <?php echo e($document->middle_name); ?>
 
                                     </td>
-                                    <td><?php echo e($document->programb->name); ?></td>
+                                    <td><?php echo e($document->program); ?></td>
                                     <td><?php echo e($document->remarks); ?></td>
                                     <?php
                                         switch($document->status) {
@@ -94,7 +94,7 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php if (! $__env->hasRenderedOnce('f9f0a846-03ed-4ac2-bcc6-3ce1fbb9cad0')): $__env->markAsRenderedOnce('f9f0a846-03ed-4ac2-bcc6-3ce1fbb9cad0');
+<?php if (! $__env->hasRenderedOnce('ce937699-13a7-4b41-b11b-92e3d091553d')): $__env->markAsRenderedOnce('ce937699-13a7-4b41-b11b-92e3d091553d');
 $__env->startPush('page-scripts'); ?>
 <script>
     const documentSearchInput = document.getElementById('document-search-input');

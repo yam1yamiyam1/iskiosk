@@ -91,7 +91,7 @@
                                 <tr>
                                     <td><?php echo e($index + 1); ?></td>
                                     <td><b><?php echo e($document->tracking_code); ?></b></td>
-                                    <td><?php echo e($document->document_typeb->name); ?></td>
+                                    <td><?php echo e($document->document_type); ?></td>
                                     <td><?php echo e($document->id_number); ?></td>
                                     <td>
                                         <?php echo e($document->surname); ?>,
@@ -100,7 +100,7 @@
                                         <?php echo e($document->middle_name); ?>
 
                                     </td>
-                                    <td><?php echo e($document->programb->name); ?></td>
+                                    <td><?php echo e($document->program); ?></td>
                                     <td>
                                         <span class="badge bg-light">
                                             <?php if($document->status === 'Submitted' && $passes): ?>
@@ -261,6 +261,12 @@
                 <?php echo csrf_field(); ?>
 
                 <div class="modal-body">
+                    <div class="mb-3 text-center">
+                        <span class="badge bg-secondary text-white">Collected and Processing</span>
+                        <i class="fas fa-arrow-right mx-2 text-muted"></i>
+                        <span class="badge bg-warning text-white">Ready for Claiming</span>
+                    </div>
+
                     <p>
                         Are you sure you want to mark 
                         <strong>all collected documents</strong> as Ready for Claiming?
@@ -269,17 +275,23 @@
                     <div class="mb-3">
                         <label class="form-label">Remark (Optional)</label>
                         
-                        <div class="mb-2">
-                            <?php $__currentLoopData = $quickRemarks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <span class="badge bg-primary text-white cursor-pointer quick-remark-chip" style="cursor: pointer; color: white !important; margin-right: 5px;" data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
+                        <div class="mb-2 quick-remarks-container">
+                            <?php $__currentLoopData = $quickRemarks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $qr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <span class="badge bg-primary text-white cursor-pointer quick-remark-chip <?php echo e($index >= 3 ? 'd-none extra-remark' : ''); ?>" 
+                                      style="cursor: pointer; color: white !important; margin-right: 5px; margin-bottom: 5px;" 
+                                      data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php if(count($quickRemarks) > 3): ?>
+                                <span class="badge bg-secondary text-white cursor-pointer show-more-remarks" style="cursor: pointer; margin-right: 5px; margin-bottom: 5px;">Show more...</span>
+                            <?php endif; ?>
+                            <span class="badge bg-dark text-white cursor-pointer custom-remark-chip" style="cursor: pointer; margin-bottom: 5px;">Other...</span>
                         </div>
                         <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
                                 placeholder="Enter remark for all documents (optional).."></textarea>
                     </div>
 
                     <div class="alert alert-warning">
-                        ⚠️ This will apply the same remark to all affected documents.
+                        ⚠️ This remark will be applied to all affected documents.
                     </div>
                 </div>
 
@@ -346,23 +358,27 @@
             </div>
 
             <div class="modal-body">
-                <p><strong>Full Name:</strong> <span id="c_fullname"></span></p>
-                <p><strong>Year Level:</strong> <span id="c_year"></span></p>
-                <p><strong>Program:</strong> <span id="c_program"></span></p>
-                <p><strong>Document Type:</strong> <span id="c_doc"></span></p>
-                <p><strong>Email:</strong> <span id="c_email"></span></p>
-                <p><strong>Contact:</strong> <span id="c_contact"></span></p>
-                <p><strong>Status:</strong> <span id="c_status"></span></p>
-                <p><strong>Update To:</strong> <span id="c_update"></span></p>
+                <div class="mb-3 text-center">
+                    <span id="c_status_badge"></span>
+                    <i class="fas fa-arrow-right mx-2 text-muted"></i>
+                    <span id="c_update_badge"></span>
+                </div>
+                
+                <div class="card mb-3 bg-light">
+                    <div class="card-body p-2" style="font-size: 0.9em;">
+                        <strong>Tracker ID:</strong> <span id="c_tracking"></span><br>
+                        <strong>Student:</strong> <span id="c_fullname"></span><br>
+                        <strong>Document:</strong> <span id="c_doc"></span>
+                    </div>
+                </div>
 
-                <div class="alert alert-warning mt-3">
-                    Are you sure you want to proceed?
+                <div class="text-center mt-3 text-muted" id="scanKeyboardShortcuts" style="font-size: 0.85em;">
+                    <kbd>Enter</kbd> to confirm &nbsp;&nbsp; <kbd>Esc</kbd> to cancel
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" id="confirmScanBtn">Confirm</button>
+            <div class="modal-footer" id="scanModalFooter">
+                <!-- Dynamically populated buttons -->
             </div>
         </div>
     </div>
@@ -382,6 +398,21 @@
                     <?php echo method_field('PATCH'); ?>
 
                     <div class="modal-body">
+                        <div class="mb-3 text-center">
+                            <span class="badge bg-secondary text-white">Collected and Processing</span>
+                            <i class="fas fa-arrow-right mx-2 text-muted"></i>
+                            <span class="badge bg-warning text-white">Ready for Claiming</span>
+                        </div>
+                        
+                        <div class="card mb-3 bg-light">
+                            <div class="card-body p-2" style="font-size: 0.9em;">
+                                <strong>Tracker ID:</strong> <?php echo e($document->tracking_code); ?><br>
+                                <strong>Student:</strong> <?php echo e($document->surname); ?>, <?php echo e($document->given_name); ?><br>
+                                <strong>Document:</strong> <?php echo e($document->document_type); ?>
+
+                            </div>
+                        </div>
+
                         <p>
                             Mark this document as <strong>Ready for Claiming</strong>?
                         </p>
@@ -389,10 +420,16 @@
                         <div class="mb-3">
                             <label class="form-label">Remark (Optional)</label>
                             
-                            <div class="mb-2">
-                                <?php $__currentLoopData = $quickRemarks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $qr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <span class="badge bg-primary text-white cursor-pointer quick-remark-chip" style="cursor: pointer; color: white !important; margin-right: 5px;" data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
+                            <div class="mb-2 quick-remarks-container">
+                                <?php $__currentLoopData = $quickRemarks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $qr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <span class="badge bg-primary text-white cursor-pointer quick-remark-chip <?php echo e($index >= 3 ? 'd-none extra-remark' : ''); ?>" 
+                                          style="cursor: pointer; color: white !important; margin-right: 5px; margin-bottom: 5px;" 
+                                          data-remark="<?php echo e($qr->remark); ?>"><?php echo e(\Illuminate\Support\Str::limit($qr->remark, 30)); ?></span>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php if(count($quickRemarks) > 3): ?>
+                                    <span class="badge bg-secondary text-white cursor-pointer show-more-remarks" style="cursor: pointer; margin-right: 5px; margin-bottom: 5px;">Show more...</span>
+                                <?php endif; ?>
+                                <span class="badge bg-dark text-white cursor-pointer custom-remark-chip" style="cursor: pointer; margin-bottom: 5px;">Other...</span>
                             </div>
                             <textarea name="remark" class="form-control remark-textarea" rows="3" maxlength="500"
                                     placeholder="Enter any note or remark (optional)..."></textarea>
@@ -424,6 +461,21 @@
                     <?php echo method_field('PATCH'); ?>
 
                     <div class="modal-body">
+                        <div class="mb-3 text-center">
+                            <span class="badge bg-warning text-white">Ready for Claiming</span>
+                            <i class="fas fa-arrow-right mx-2 text-muted"></i>
+                            <span class="badge bg-success text-white">Claimed</span>
+                        </div>
+                        
+                        <div class="card mb-3 bg-light">
+                            <div class="card-body p-2" style="font-size: 0.9em;">
+                                <strong>Tracker ID:</strong> <?php echo e($document->tracking_code); ?><br>
+                                <strong>Student:</strong> <?php echo e($document->surname); ?>, <?php echo e($document->given_name); ?><br>
+                                <strong>Document:</strong> <?php echo e($document->document_type); ?>
+
+                            </div>
+                        </div>
+
                         Are you sure you want to mark this document as <strong>Claimed</strong>?
                     </div>
 
@@ -449,6 +501,21 @@
                     <?php echo method_field('PATCH'); ?>
 
                     <div class="modal-body">
+                        <div class="mb-3 text-center">
+                            <span class="badge bg-secondary text-white">Submitted</span>
+                            <i class="fas fa-arrow-right mx-2 text-danger"></i>
+                            <span class="badge bg-danger text-white">Claimed (Override)</span>
+                        </div>
+                        
+                        <div class="card mb-3 bg-light">
+                            <div class="card-body p-2" style="font-size: 0.9em;">
+                                <strong>Tracker ID:</strong> <?php echo e($document->tracking_code); ?><br>
+                                <strong>Student:</strong> <?php echo e($document->surname); ?>, <?php echo e($document->given_name); ?><br>
+                                <strong>Document:</strong> <?php echo e($document->document_type); ?>
+
+                            </div>
+                        </div>
+
                         <p>
                             This will bypass kiosk waiting and mark this document as
                             <strong>Claimed</strong> immediately.
@@ -473,13 +540,31 @@
             </div>
         </div>
     </div>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
     
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    
+    <div id="testModePanel" style="position: fixed; bottom: 20px; right: 20px; background: #1e293b; border-radius: 10px; padding: 12px 16px; z-index: 1100; min-width: 230px; box-shadow: 0 4px 16px rgba(0,0,0,0.35);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #f59e0b; text-transform: uppercase;">⚙ Dev / Test Mode</span>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: #94a3b8; margin: 0;">
+                <input type="checkbox" id="testModeToggle" style="accent-color: #f59e0b;"> On
+            </label>
+        </div>
+        <div id="testModeContainer" style="display: none;">
+            <input type="text" id="testBarcode" placeholder="Enter Tracking Code"
+                style="width: 100%; box-sizing: border-box; padding: 7px 10px; font-size: 13px; border-radius: 6px !important; border: 1px solid #475569 !important; background: #0f172a; color: #f1f5f9; margin-bottom: 8px; min-height: unset; box-shadow: none !important;">
+            <button id="testSubmit"
+                style="width: 100%; padding: 8px; background: #8B1A1A; color: white; border: none; border-radius: 6px !important; font-size: 13px; cursor: pointer; font-weight: 600; font-family: 'Roboto', sans-serif; height: auto;">
+                Simulate Scan
+            </button>
+        </div>
+    </div>
+    
 
 <?php $__env->stopSection(); ?>
 
-<?php if (! $__env->hasRenderedOnce('4b4ae9bf-3d9d-4bf6-bbf1-d72aaf659862')): $__env->markAsRenderedOnce('4b4ae9bf-3d9d-4bf6-bbf1-d72aaf659862');
+<?php if (! $__env->hasRenderedOnce('920a5d02-3d84-4833-b9e7-2ef7830c3bcf')): $__env->markAsRenderedOnce('920a5d02-3d84-4833-b9e7-2ef7830c3bcf');
 $__env->startPush('page-scripts'); ?>
 <script>
     const documentSearchInput = document.getElementById('document-search-input');
@@ -546,6 +631,7 @@ $__env->startPush('page-scripts'); ?>
     });
 
     let scannedDocument = null;
+    let scanAction = 'process';
 
     async function handleTrackingScan(code) {
         try {
@@ -578,28 +664,74 @@ $__env->startPush('page-scripts'); ?>
                 }
                 
                 scannedDocument = data.document;
+                scanAction = 'process';
 
+                document.getElementById('c_tracking').innerText = code;
                 document.getElementById('c_fullname').innerText = data.document.fullname;
-                document.getElementById('c_year').innerText = data.document.year_level;
-                document.getElementById('c_program').innerText = data.document.program;
                 document.getElementById('c_doc').innerText = data.document.document_type;
-                document.getElementById('c_email').innerText = data.document.email;
-                document.getElementById('c_contact').innerText = data.document.contact_number;
-                document.getElementById('c_status').innerText = data.document.current_status;
+                
+                const statusBadgeMap = {
+                    'Submitted': '<span class="badge bg-secondary text-white">Submitted</span>',
+                    'Collected and Processing': '<span class="badge bg-secondary text-white">Collected and Processing</span>',
+                    'Ready for claiming': '<span class="badge bg-warning text-white">Ready for Claiming</span>',
+                    'Claimed': '<span class="badge bg-success text-white">Claimed</span>'
+                };
+                
+                document.getElementById('c_status_badge').innerHTML = statusBadgeMap[currentStatus] || `<span class="badge bg-light text-dark">${currentStatus}</span>`;
 
-                let nextStatus = '';
+                let nextStatusBadge = '';
+                let footerHtml = '';
 
-                if (data.document.current_status === 'Collected and Processing') {
-                    nextStatus = 'Ready for Claiming';
-                } else if (data.document.current_status === 'Ready for claiming') {
-                    nextStatus = 'Claimed';
+                if (currentStatus === 'Submitted') {
+                    document.getElementById('scanKeyboardShortcuts').style.display = 'none';
+                    nextStatusBadge = '<span class="badge bg-secondary text-white">Collected and Processing</span>';
+                    footerHtml = `
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-danger ms-auto" id="overrideScanBtn">Override to Claimed</button>
+                        <button class="btn btn-primary" id="confirmScanBtn">Collect Document</button>
+                    `;
+                } else if (currentStatus === 'Collected and Processing') {
+                    document.getElementById('scanKeyboardShortcuts').style.display = 'block';
+                    nextStatusBadge = '<span class="badge bg-warning text-white">Ready for Claiming</span>';
+                    footerHtml = `
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" id="confirmScanBtn">Confirm Update</button>
+                    `;
+                } else if (currentStatus === 'Ready for claiming') {
+                    document.getElementById('scanKeyboardShortcuts').style.display = 'block';
+                    nextStatusBadge = '<span class="badge bg-success text-white">Claimed</span>';
+                    footerHtml = `
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" id="confirmScanBtn">Confirm Update</button>
+                    `;
                 } else {
-                    nextStatus = 'No action available';
+                    document.getElementById('scanKeyboardShortcuts').style.display = 'block';
+                    nextStatusBadge = '<span class="badge bg-light text-dark">No action</span>';
+                    footerHtml = `<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`;
                 }
 
-                document.getElementById('c_update').innerText = nextStatus;
+                document.getElementById('c_update_badge').innerHTML = nextStatusBadge;
+                document.getElementById('scanModalFooter').innerHTML = footerHtml;
 
-                new bootstrap.Modal(document.getElementById('scanConfirmModal')).show();
+                const scanModalEl = document.getElementById('scanConfirmModal');
+                const scanModal = new bootstrap.Modal(scanModalEl);
+                scanModal.show();
+                
+                const confirmBtn = document.getElementById('confirmScanBtn');
+                if (confirmBtn) {
+                    confirmBtn.addEventListener('click', () => {
+                        scanAction = 'process';
+                        processScanConfirm();
+                    });
+                }
+                
+                const overrideBtn = document.getElementById('overrideScanBtn');
+                if (overrideBtn) {
+                    overrideBtn.addEventListener('click', () => {
+                        scanAction = 'override';
+                        processScanConfirm();
+                    });
+                }
             }
 
         } catch (err) {
@@ -608,8 +740,29 @@ $__env->startPush('page-scripts'); ?>
         }
     }
 
-    document.getElementById('confirmScanBtn').addEventListener('click', async () => {
+    document.addEventListener('keydown', function(e) {
+        const scanModalEl = document.getElementById('scanConfirmModal');
+        if (scanModalEl.classList.contains('show')) {
+            if (scannedDocument && scannedDocument.current_status === 'Submitted') {
+                return; // Disable custom enter/esc handling when there are multiple options
+            }
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const confirmBtn = document.getElementById('confirmScanBtn');
+                if (confirmBtn) confirmBtn.click();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                const cancelBtn = scanModalEl.querySelector('[data-bs-dismiss="modal"]');
+                if (cancelBtn) cancelBtn.click();
+            }
+        }
+    });
+
+    async function processScanConfirm() {
         if (!scannedDocument) return;
+
+        const confirmBtns = document.querySelectorAll('#scanModalFooter .btn');
+        confirmBtns.forEach(btn => btn.disabled = true);
 
         const res = await fetch('<?php echo e(route('documents.confirmScan')); ?>', {
             method: 'POST',
@@ -618,24 +771,28 @@ $__env->startPush('page-scripts'); ?>
                 'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
             },
             body: JSON.stringify({
-                id: scannedDocument.id
+                id: scannedDocument.id,
+                action: scanAction
             })
         });
 
         const data = await res.json();
 
         if (data.status === 'updated') {
+            bootstrap.Modal.getInstance(document.getElementById('scanConfirmModal')).hide();
+            
             showScanModal(
                 'Success',
                 `✅ Status updated to:<br><b>${data.new_status}</b>`,
                 'success'
             );
 
-            bootstrap.Modal.getInstance(document.getElementById('scanConfirmModal')).hide();
-
             setTimeout(() => location.reload(), 1000);
+        } else {
+             confirmBtns.forEach(btn => btn.disabled = false);
+             showScanModal('Error', 'Error processing scan', 'danger');
         }
-    });
+    }
 
     function showScanModal(title, message, type = 'primary') {
         const modalEl = document.getElementById('scanResultModal');
@@ -653,15 +810,78 @@ $__env->startPush('page-scripts'); ?>
     document.querySelectorAll('.quick-remark-chip').forEach(chip => {
         chip.addEventListener('click', function() {
             const remarkText = this.getAttribute('data-remark');
-            const modal = this.closest('.modal');
-            if(modal) {
-                const textarea = modal.querySelector('.remark-textarea');
-                if(textarea) {
-                    textarea.value = remarkText;
-                }
+            const container = this.closest('.quick-remarks-container');
+            const textarea = this.closest('.modal-body').querySelector('.remark-textarea');
+            
+            if(textarea) {
+                textarea.value = remarkText;
+            }
+            
+            if(container) {
+                container.querySelectorAll('.badge').forEach(b => {
+                    b.classList.remove('bg-success');
+                    if (b.classList.contains('quick-remark-chip') || b.classList.contains('custom-remark-chip')) {
+                        b.classList.add(b.classList.contains('custom-remark-chip') ? 'bg-dark' : 'bg-primary');
+                    }
+                });
+                this.classList.remove('bg-primary');
+                this.classList.add('bg-success');
             }
         });
     });
+
+    document.querySelectorAll('.show-more-remarks').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const container = this.closest('.quick-remarks-container');
+            container.querySelectorAll('.extra-remark').forEach(chip => {
+                chip.classList.remove('d-none');
+            });
+            this.classList.add('d-none');
+        });
+    });
+
+    document.querySelectorAll('.custom-remark-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            const container = this.closest('.quick-remarks-container');
+            const textarea = this.closest('.modal-body').querySelector('.remark-textarea');
+            
+            if(textarea) {
+                textarea.focus();
+            }
+            
+            if(container) {
+                container.querySelectorAll('.badge').forEach(b => {
+                    b.classList.remove('bg-success');
+                    if (b.classList.contains('quick-remark-chip') || b.classList.contains('custom-remark-chip')) {
+                        b.classList.add(b.classList.contains('custom-remark-chip') ? 'bg-dark' : 'bg-primary');
+                    }
+                });
+                this.classList.remove('bg-dark');
+                this.classList.add('bg-success');
+            }
+        });
+    });
+
+    // Test Mode logic
+    const testModeToggle = document.getElementById('testModeToggle');
+    if (testModeToggle) {
+        testModeToggle.addEventListener('change', (e) => {
+            document.getElementById('testModeContainer').style.display = e.target.checked ? 'block' : 'none';
+        });
+        document.getElementById('testSubmit').addEventListener('click', () => {
+            const val = document.getElementById('testBarcode').value.trim();
+            if (val) { 
+                handleTrackingScan(val); 
+                document.getElementById('testBarcode').value = ''; 
+            }
+        });
+        document.getElementById('testBarcode').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('testSubmit').click();
+            }
+        });
+    }
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.tabler', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\iskiosk\resources\views/admin/document.blade.php ENDPATH**/ ?>

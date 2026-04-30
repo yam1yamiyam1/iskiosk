@@ -1,13 +1,10 @@
-
-
 <?php $__env->startSection('content'); ?>
 <div id="fullscreenCarousel" class="fullscreen-carousel">
-    <div class="carousel-slide active">
-        <img src="<?php echo e(asset('assets/img/carousel1.jpg')); ?>" alt="Slide 1">
-    </div>
-    <div class="carousel-slide">
-        <img src="<?php echo e(asset('assets/img/carousel2.jpeg')); ?>" alt="Slide 2">
-    </div>
+    <?php $__currentLoopData = $carouselSlides; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $src): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <div class="carousel-slide <?php echo e($index === 0 ? 'active' : ''); ?>">
+            <img src="<?php echo e($src); ?>" alt="How to use — step <?php echo e($index + 1); ?>">
+        </div>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
     <div id="carouselReminder" class="carousel-reminder">
         Touch or click to go to home page
@@ -33,14 +30,16 @@
 .carousel-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    background: #000;
 }
 .carousel-slide.active {
     display: block;
     animation: fade 1s;
 }
 @keyframes fade {
-    from {opacity:0;} 
+    from {opacity:0;}
     to {opacity:1;}
 }
 
@@ -65,6 +64,8 @@
 const slides = document.querySelectorAll('.carousel-slide');
 let currentSlide = 0;
 const totalSlides = slides.length;
+/** Time each slide is shown (ms). 9s fits instructional “how to use” slides so text can be read. */
+const SLIDE_INTERVAL_MS = 9000;
 
 function showSlide(index){
     slides.forEach((s,i)=>s.classList.toggle('active', i===index));
@@ -73,7 +74,7 @@ function showSlide(index){
 const slideInterval = setInterval(()=>{
     currentSlide = (currentSlide+1)%totalSlides;
     showSlide(currentSlide);
-},5000);
+}, SLIDE_INTERVAL_MS);
 
 showSlide(currentSlide);
 
@@ -111,4 +112,5 @@ ws.addEventListener('message', (e) => {
 });
 </script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.kiosk', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\iskiosk\resources\views/kiosk/carousel.blade.php ENDPATH**/ ?>
