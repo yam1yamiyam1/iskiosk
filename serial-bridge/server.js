@@ -4,13 +4,13 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const SCANNER_PORT = 'COM4';
-const ARDUINO_PORT = 'COM5';
+const SCANNER_PORT = '';
+const ARDUINO_PORT = '';
 const BAUD_RATE = 9600;
 const PRINTER_NAME = 'POS58';
 
-const scanner = new SerialPort({ path: SCANNER_PORT, baudRate: BAUD_RATE });
-const arduino = new SerialPort({ path: ARDUINO_PORT, baudRate: BAUD_RATE });
+const scanner = SCANNER_PORT ? new SerialPort({ path: SCANNER_PORT, baudRate: BAUD_RATE }) : { on: () => {}, write: () => {}, isOpen: false };
+const arduino = ARDUINO_PORT ? new SerialPort({ path: ARDUINO_PORT, baudRate: BAUD_RATE }) : { on: () => {}, write: () => {}, isOpen: false };
 
 const wss = new WebSocket.Server({ port: 8081 });
 let clients = [];
@@ -90,7 +90,14 @@ wss.on('connection', ws => {
           console.log('Sending command to Arduino:', data.command);
           arduino.write(data.command + '\n');
         } else {
-          console.log('Arduino port is not open');
+          console.log('Arduino port is not open. Mocking response for command:', data.command);
+          if (data.command === 'CHECK_DRAWER') {
+            setTimeout(() => broadcast("OPEN_DRAWER1"), 500);
+          } else if (data.command === 'OPEN_ALL') {
+            setTimeout(() => broadcast("ALL_DRAWERS_OPENED"), 300);
+          } else if (data.command === 'CLOSE_ALL') {
+            setTimeout(() => broadcast("ALL_DRAWERS_CLOSED"), 300);
+          }
         }
       }
     } catch (e) {

@@ -96,6 +96,9 @@ Route::prefix('kiosk')->middleware('ip')->group(function () {
     Route::get('/claim', [KioskController::class, 'claim'])->name('kiosk.claim');
     Route::post('/claim/verify', [KioskController::class, 'verifyClaim'])->name('kiosk.claim.verify');
     Route::post('/claim/confirm', [KioskController::class, 'confirmClaim'])->name('kiosk.claim.confirm');
+    
+    Route::post('/submit/finalize', [KioskController::class, 'finalizeSubmission'])->name('kiosk.submit.finalize');
+    Route::post('/submit/printer-error', [KioskController::class, 'flagPrinterError'])->name('kiosk.submit.printerError');
 });
 
 require __DIR__.'/auth.php';

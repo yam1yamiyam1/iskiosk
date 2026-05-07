@@ -135,13 +135,9 @@ class KioskController extends Controller
                 'contact_number' => $student->contact_number,
                 'document_type'  => $data['document_type'],
                 'tracking_code' => 'TRK-' . strtoupper(Str::random(8)),
-                'status'         => 'Submitted',
+                'status'         => 'Pending Print',
                 'batch_id'       => $pendingBatch->id,
             ]);
-
-            if ($document->email) {
-                Mail::to($document->email)->send(new DocumentStatusUpdated($document));
-            }
 
             DB::commit();
 
@@ -303,5 +299,38 @@ class KioskController extends Controller
             'message' => 'Document successfully claimed.',
             'tracking_code' => $document->tracking_code,
         ]);
+    }
+    public function finalizeSubmission(Request $request)
+    {
+        $request->validate(['tracking_code' => 'required|string']);
+
+        $document = Document::where('tracking_code', $request->tracking_code)->first();
+
+        if ($document && $document->status === 'Pending Print') {
+            $document->update(['status' => 'Submitted']);
+
+            if ($document->email) {
+                Mail::to($document->email)->send(new DocumentStatusUpdated($document));
+            }
+
+            return response()->json(['status' => 'success']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid document'], 400);
+    }
+
+    public function flagPrinterError(Request $request)
+    {
+        $request->validate(['tracking_code' => 'required|string']);
+
+        $document = Document::where('tracking_code', $request->tracking_code)->first();
+
+        if ($document && $document->status === 'Pending Print') {
+            $document->update(['status' => 'Printer Error']);
+
+            return response()->json(['status' => 'success']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid document'], 400);
     }
 }

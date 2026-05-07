@@ -117,6 +117,18 @@
         <button id="statusBtn">OK</button>
       </div>
     </div>
+
+    <!-- Verify Print Modal -->
+    <div id="verifyPrintModal" class="status-modal">
+      <div class="status-box">
+        <h3 style="color: #2563eb;">Barcode Printing</h3>
+        <p id="verifyPrintMessage">Your barcode is printing.<br>Did you receive the sticker?</p>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top: 15px;">
+          <button id="verifyPrintYes" style="background:#16a34a;">Yes, I have it</button>
+          <button id="verifyPrintNo" style="background:#dc2626;">No, Printer Error</button>
+        </div>
+      </div>
+    </div>
 </div>
 
 <script>
@@ -226,6 +238,115 @@ ws.send = function (data) {
   return originalSend(data);
 };
 
+async function handlePrintVerification(trackingCode, barcodeBase64, fullName, drawerMsg) {
+  let printRetries = 0;
+  const verifyPrintModal = document.getElementById('verifyPrintModal');
+  const btnYes = document.getElementById('verifyPrintYes');
+  const btnNo = document.getElementById('verifyPrintNo');
+  const msgEl = document.getElementById('verifyPrintMessage');
+  
+  msgEl.innerHTML = "Your barcode is printing.<br>Did you receive the sticker?";
+
+  const sendPrintCommand = () => {
+    ws.send(JSON.stringify({
+        command: "PRINT_BARCODE",
+        barcode: barcodeBase64,
+        codeText: trackingCode,
+        fullName: fullName
+    }));
+  };
+
+  sendPrintCommand();
+  verifyPrintModal.classList.add('active');
+
+  return new Promise((resolve) => {
+    btnYes.onclick = async () => {
+      verifyPrintModal.classList.remove('active');
+      
+      try {
+        await fetch('{{ route("kiosk.submit.finalize") }}', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+          },
+          body: JSON.stringify({ tracking_code: trackingCode })
+        });
+      } catch (err) {
+        console.error("Finalize error", err);
+      }
+
+      ws.send(JSON.stringify({ command: drawerMsg }));
+      showStatusModal(
+        drawerMsg === "OPEN_DRAWER1" ? "Drawer 1 Unlocked" : "Drawer 2 Unlocked",
+        "Please insert your document into the drawer.<br><b>Please click OK before closing the drawer.</b><br><br><small>(Closes automatically in 30 seconds)</small>",
+        "success"
+      );
+
+      let timeoutClosed = false;
+      let drawerTimeout = setTimeout(() => {
+        if(!timeoutClosed) {
+           timeoutClosed = true;
+           statusModal.classList.remove('active');
+           ws.send(JSON.stringify({ command: "CLOSE_ALL" }));
+           form.reset();
+           idVisible.value = '';
+           syncId();
+        }
+      }, 30000);
+
+      statusBtn.onclick = () => {
+        if(!timeoutClosed) {
+          timeoutClosed = true;
+          clearTimeout(drawerTimeout);
+          statusModal.classList.remove('active');
+          ws.send(JSON.stringify({ command: "CLOSE_ALL" }));
+          form.reset();
+          idVisible.value = '';
+          syncId();
+        }
+      };
+      resolve();
+    };
+
+    btnNo.onclick = async () => {
+      if (printRetries === 0) {
+        printRetries++;
+        sendPrintCommand();
+        msgEl.innerHTML = "Retrying print...<br>Did you receive the sticker?";
+      } else {
+        verifyPrintModal.classList.remove('active');
+        
+        try {
+          await fetch('{{ route("kiosk.submit.printerError") }}', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ tracking_code: trackingCode })
+          });
+        } catch (err) {
+          console.error("Flag error", err);
+        }
+        
+        showStatusModal(
+          "Printer Error",
+          "We could not print your barcode. Please seek admin assistance.",
+          "error"
+        );
+        statusBtn.onclick = () => {
+          statusModal.classList.remove('active');
+          form.reset();
+          idVisible.value = '';
+          syncId();
+        };
+        resolve();
+      }
+    };
+  });
+}
+
 ws.addEventListener('message', async e => {
   let msg = e.data.trim();
 
@@ -259,34 +380,7 @@ ws.addEventListener('message', async e => {
           console.log("📦 Response received after drawer open:", data);
 
           if (data.status === 'success') {
-            
-            const barcodeBase64 = data.barcode_base64;
-            const trackingCode = data.tracking_code;
-            const fullName = data.full_name;  
-
-            ws.send(JSON.stringify({
-                command: "PRINT_BARCODE",
-                barcode: barcodeBase64,
-                codeText: trackingCode,
-                fullName: fullName
-            }));
-
-            ws.send(JSON.stringify({ command: msg }));
-            showStatusModal(
-              msg === "OPEN_DRAWER1" ? "Drawer 1 Unlocked" : "Drawer 2 Unlocked",
-              "Please insert your document into the drawer.<br><b>Please click OK before closing the drawer.</b>",
-              "success"
-            );
-
-            statusBtn.onclick = () => {
-              statusModal.classList.remove('active');
-
-              ws.send(JSON.stringify({ command: "CLOSE_ALL" }));
-            };
-
-            form.reset();
-            idVisible.value = '';
-            syncId();
+            await handlePrintVerification(data.tracking_code, data.barcode_base64, data.full_name, msg);
           } else if (data.status === 'confirm_update') {
             hideLoading();
             let changesHtml = '<ul style="text-align:left;">';
@@ -315,35 +409,7 @@ ws.addEventListener('message', async e => {
 
                   const respData = await resp.json();
                   if (respData.status === 'success') {
-                    const barcodeBase64 = data.barcode_base64;
-                    const trackingCode = data.tracking_code;
-                    const fullName = data.full_name;  
-
-                    ws.send(JSON.stringify({
-                        command: "PRINT_BARCODE",
-                        barcode: barcodeBase64,
-                        codeText: trackingCode,
-                        fullName: fullName
-                    }));
-
-                    ws.send(JSON.stringify({ command: msg }));
-
-                    showStatusModal(
-                      `${msg === "OPEN_DRAWER1" ? "Drawer 1" : "Drawer 2"} Unlocked`,
-                      "Please insert your document into the drawer.<br><b>Please click OK before closing the drawer.</b>",
-                      "success"
-                    );
-
-                    statusBtn.onclick = () => {
-                      statusModal.classList.remove('active');
-
-                      console.log(`📤 Closing ${drawerToOpen}`);
-                      ws.send(JSON.stringify({ command: "CLOSE_ALL" }));
-                    };
-
-                    form.reset();
-                    idVisible.value = '';
-                    syncId();
+                    await handlePrintVerification(data.tracking_code, data.barcode_base64, data.full_name, msg);
                   } else {
                     showPopup('Update failed. Please try again.');
                   }
