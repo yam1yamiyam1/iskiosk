@@ -115,9 +115,7 @@ const $ = (sel) => document.querySelector(sel);
 let currentStep = 1;
 let currentTrackingCode = null;
 let idleTimer = null;
-let minimizeTimer = null;
 const IDLE_TIMEOUT = 30000;
-const MINIMIZE_TIMEOUT = 60000;
 
 // UI references
 const step1        = $('#step-1');
@@ -131,29 +129,27 @@ const loadingText  = $('#loadingText');
 const statusModal  = $('#statusModal');
 
 // ─── BARCODE PERIPHERAL ───────────────────────────────────────────────────────
-let ws = null; // Make ws globally accessible for minimize timer
+// To swap to a different peripheral (WebSocket, serial, HID), replace the body
+// of initBarcodePeripheral(). Contract: call handleScan(trackingCode) with the
+// raw scanned string. Do not change anything else.
+let barcodeBuffer = '';
+let barcodeTimeout = null;
 
-// Uses the WebSocket serial bridge to capture barcode scans.
 function initBarcodePeripheral() {
-    ws = new WebSocket('ws://localhost:8081');
+    document.addEventListener('keydown', (e) => {
+        if (document.activeElement === $('#testBarcode')) return;
+        if (currentStep !== 1) return;
 
-    ws.addEventListener('message', async e => {
-        if (currentStep !== 1) return; // Only process scans in Step 1
-
-        let msg = e.data.trim();
-        console.log("📩 Scan received via WebSocket:", msg);
-        
-        if (msg) {
-            handleScan(msg);
+        if (e.key === 'Enter') {
+            if (barcodeBuffer.length > 0) {
+                handleScan(barcodeBuffer.trim());
+                barcodeBuffer = '';
+            }
+        } else if (e.key.length === 1) {
+            barcodeBuffer += e.key;
+            clearTimeout(barcodeTimeout);
+            barcodeTimeout = setTimeout(() => { barcodeBuffer = ''; }, 100);
         }
-    });
-
-    ws.addEventListener('open', () => {
-        console.log("✅ WebSocket connected for scanner.");
-    });
-
-    ws.addEventListener('error', (err) => {
-        console.error("❌ WebSocket error:", err);
     });
 }
 
@@ -187,15 +183,6 @@ function resetIdleTimer() {
     }
 }
 
-function resetMinimizeTimer() {
-    clearTimeout(minimizeTimer);
-    minimizeTimer = setTimeout(() => {
-        if (ws && ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ command: 'minimize' }));
-        }
-    }, MINIMIZE_TIMEOUT);
-}
-
 function goToStep(step) {
     currentStep = step;
 
@@ -220,13 +207,8 @@ function goToStep(step) {
 }
 
 ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evt => {
-    document.addEventListener(evt, () => { 
-        if (currentStep !== 1) resetIdleTimer(); 
-        resetMinimizeTimer();
-    });
+    document.addEventListener(evt, () => { if (currentStep !== 1) resetIdleTimer(); });
 });
-
-resetMinimizeTimer(); // Start the timer on page load
 
 async function handleScan(code) {
     showLoading('Verifying document...');

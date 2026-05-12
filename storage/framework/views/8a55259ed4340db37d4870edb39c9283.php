@@ -564,7 +564,7 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php if (! $__env->hasRenderedOnce('b62b6e2c-d25d-4621-8c17-467a061de134')): $__env->markAsRenderedOnce('b62b6e2c-d25d-4621-8c17-467a061de134');
+<?php if (! $__env->hasRenderedOnce('920a5d02-3d84-4833-b9e7-2ef7830c3bcf')): $__env->markAsRenderedOnce('920a5d02-3d84-4833-b9e7-2ef7830c3bcf');
 $__env->startPush('page-scripts'); ?>
 <script>
     const documentSearchInput = document.getElementById('document-search-input');
